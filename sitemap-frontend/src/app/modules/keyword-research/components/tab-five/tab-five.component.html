@@ -1,0 +1,94 @@
+<div
+  class="card clr-align-self-center"
+  style="width: 100%; min-height: 400px; overflow-x: scroll; padding: 0"
+>
+  <div class="card-block" style="padding: 5px; margin: 0">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="clr-row clr-align-items-center">
+      <div class="clr-col clr-align-self-center">
+        <div class="limit-height">
+          <clr-datagrid
+            (clrDgRefresh)="refreshFn($event)"
+            [clrDgLoading]="isLoading"
+            *ngIf="result"
+          >
+            <clr-dg-column [clrDgField]="'keyword'" class="table-header">
+              Keyword</clr-dg-column
+            >
+            <clr-dg-column [clrDgField]="'rank'" class="table-header">
+              Ranking</clr-dg-column
+            >
+            <clr-dg-column [clrDgField]="'diff'" class="table-header">
+              +/-</clr-dg-column
+            >
+            <clr-dg-column [clrDgField]="'url'" class="table-header">
+              URL</clr-dg-column
+            >
+            <clr-dg-column [clrDgField]="'device'" class="table-header">
+              Device</clr-dg-column
+            >
+            <clr-dg-column [clrDgField]="'region'" class="table-header">
+              Region</clr-dg-column
+            >
+            <clr-dg-column [clrDgField]="'search_volume'" class="table-header">
+              Search Volume</clr-dg-column
+            >
+
+            <clr-dg-row *ngFor="let item of result">
+              <clr-dg-cell>{{ item.keyword }}</clr-dg-cell>
+              <clr-dg-cell>{{ item.rank }}</clr-dg-cell>
+              <clr-dg-cell>
+                <i
+                  *ngIf="numberFn(item?.diff) !== 0"
+                  class="fa fa-arrow-{{
+                    numberFn(item?.diff) > 0 ? 'up' : 'down'
+                  }}"
+                ></i>
+
+                <span
+                  [ngClass]="{
+                    good:
+                      numberFn(item?.diff) !== 0 && numberFn(item?.diff) > 0,
+                    poor: numberFn(item?.diff) !== 0 && numberFn(item?.diff) < 0
+                  }"
+                >
+                  {{ absFn(item.diff) }}
+                </span>
+              </clr-dg-cell>
+              <clr-dg-cell>{{ item.url | pagePath }}</clr-dg-cell>
+              <clr-dg-cell>{{ item.device }}</clr-dg-cell>
+              <clr-dg-cell>{{ item.region }}</clr-dg-cell>
+              <clr-dg-cell>{{ item.search_volume }}</clr-dg-cell>
+            </clr-dg-row>
+            <clr-dg-footer>
+              <clr-dg-pagination
+                #pagination
+                [clrDgPageSize]="pageSize"
+                [clrDgTotalItems]="count"
+              >
+                {{ pagination.firstItem + 1 }} -
+                {{ pagination.lastItem + 1 }} of
+                {{ count }}
+              </clr-dg-pagination>
+            </clr-dg-footer>
+          </clr-datagrid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="card" style="height: 100%; margin: 0">
+  <div class="card-header">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-12">
+        <clr-icon shape="sync"></clr-icon> On Page Updates
+      </div>
+      <div class="clr-col-lg-8 clr-col-12" style="text-align: right">
+        <button
+          class="btn"
+          style="color: black"
+          (click)="saveItems()"
+          [disabled]="items?.size === 0"
+        >
+          <clr-icon shape="check"></clr-icon>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-block">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-success" *ngIf="success" role="alert">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+          </div>
+          <span class="alert-text"> Success! Data is saved. </span>
+        </div>
+      </div>
+      <button
+        type="button"
+        (click)="success = false"
+        class="close"
+        aria-label="Close"
+      >
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
+    <app-tab-one (onUpdateItem)="onUpdateItem($event)"></app-tab-one>
+  </div>
+</div>
+<clr-modal [(clrModalOpen)]="confirmLeaving">
+  <h3 class="modal-title">Confirmation</h3>
+  <div class="modal-body">
+    <p>
+      Are you sure you want to leave without saving
+      <strong>{{ items?.size }} Item</strong>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="subject.next(true)">
+      Leave without saving
+    </button>
+    <button type="button" class="btn btn-outline" (click)="saveItems()">
+      Save
+    </button>
+  </div>
+</clr-modal>

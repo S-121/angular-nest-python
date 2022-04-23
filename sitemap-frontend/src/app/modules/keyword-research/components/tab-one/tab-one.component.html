@@ -1,0 +1,135 @@
+<div class="search-food clr-row">
+  <div class="container clr-col-10	clr-col-sm-10	clr-col-md-10	clr-col-lg-10	clr-col-xl-10">
+    <div class="tag-container" (click)="inputMultiTags($event)">
+      <input name="multitags" value="" (keyup)="inputValue($event)" placeholder="Enter up to 5 keywords here..." />
+    </div>
+  </div>
+  <div class="find-keywords clr-col-2	clr-col-sm-2	clr-col-md-2	clr-col-lg-2	clr-col-xl-2">
+    <button *ngIf="isFinding == false;" class="btn btn-primary keywords" (click)="find_keywords()">Find Keywords</button>
+    <button *ngIf="isFinding == true;" class="btn btn-primary keywords" [disabled]="true">Find Keywords</button>
+  </div>
+</div>
+
+<div
+  class="card clr-align-self-center"
+  style="width: 100%; min-height: 400px; overflow-x: scroll; padding: 0"
+>
+  <div class="card-block" style="padding: 5px; margin: 0">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="limit-height">
+      <clr-datagrid
+        *ngIf="data?.length; else noData"
+        style="padding: 5px; margin: 0; min-height: 300px"
+        class="table table-compact table-noborder"
+        [clrDgLoading]="isLoading"
+        #datagridRef
+      >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Keyword</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Monthly Volume</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Adwords CPC</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Adwords Comp</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Trend (12 MO)</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-row *ngFor="let item of data">
+          <clr-dg-cell class="width">
+            {{ item.keyword }}
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            {{ item.vol }}
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            {{ item.cpc['currency'] }}{{ item.cpc['value'] }}
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            {{ item.competition }}
+          </clr-dg-cell>
+          <clr-dg-cell class="width" style="padding: 0;">
+            <table class="graph">
+              <tbody>
+                <tr *ngFor="let citem of item.trend" [ngStyle] = "applyStyles(citem['value'])">
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </clr-dg-cell>
+
+          <!-- <clr-dg-cell class="width">
+            <clr-control-container>
+              <input
+                clrControl
+                type="number"
+                placeholder="RD"
+                [(ngModel)]="item.rdLinks"
+                (keyup)="updateItem(item)"
+              />
+            </clr-control-container>
+          </clr-dg-cell> -->
+        </clr-dg-row>
+        <clr-dg-footer>{{ data.length }} items</clr-dg-footer>
+        <!-- <clr-dg-footer>
+          <clr-dg-pagination
+            #pagination
+            [clrDgPageSize]="pageSize"
+            [clrDgTotalItems]="count"
+          >
+            {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+            {{ count }}
+          </clr-dg-pagination>
+        </clr-dg-footer> -->
+      </clr-datagrid>
+    </div>
+    <ng-template #noData>
+      <div class="not-data" *ngIf="!isLoading">
+        <p>
+          <img src="/assets/no_data.png" alt="" />
+        </p>
+        <p>There is not data <strong>Please</strong> Do the following</p>
+        <ol>
+          <li>
+            <strong>Make sure you built the Master WQA Table </strong>
+          </li>
+          <li>
+            <strong
+              >Make sure you have URL which is marked “update on page”, “target
+              with links” or “content audit”.
+            </strong>
+          </li>
+        </ol>
+      </div>
+    </ng-template>
+  </div>
+</div>

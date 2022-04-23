@@ -1,0 +1,26 @@
+<div class="card" style="height: 100%; margin: 0">
+  <div class="card-header">
+    <clr-icon shape="line-chart"></clr-icon> Website Analytics
+  </div>
+  <div class="card-block" style="height: 95%; overflow-y: scroll">
+    <clr-tabs>
+      <clr-tab>
+        <button clrTabLink>
+          <clr-icon shape="bar-chart"></clr-icon> Google Analytics
+        </button>
+        <clr-tab-content *clrIfActive="true">
+          <app-ga-tab-one></app-ga-tab-one>
+        </clr-tab-content>
+      </clr-tab>
+      <!-- <clr-tab>
+        <button clrTabLink>
+          <clr-icon shape="lightbulb"></clr-icon>
+          Performance
+        </button>
+        <clr-tab-content *clrIfActive>
+          <app-performance></app-performance>
+        </clr-tab-content>
+      </clr-tab> -->
+    </clr-tabs>
+  </div>
+</div>

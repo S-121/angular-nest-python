@@ -1,0 +1,38 @@
+<div class="limit-height">
+  <clr-datagrid [(clrDgSelected)]="selected">
+    <clr-dg-action-bar>
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm" (click)="onAdd()">
+          <clr-icon shape="plus"></clr-icon> ADD
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm"
+          *ngIf="selected.length > 0"
+          (click)="onDelete()"
+        >
+          <clr-icon shape="close"></clr-icon> DELETE
+        </button>
+
+        <button type="button" *ngIf="dirty" class="btn btn-sm" (click)="save()">
+          <clr-icon shape="check"></clr-icon> SAVE
+        </button>
+      </div>
+    </clr-dg-action-bar>
+    <clr-dg-column class="table-header"> {{ config?.property }}</clr-dg-column>
+
+    <clr-dg-row *ngFor="let item of config?.options" [clrDgItem]="item">
+      <clr-dg-cell>
+        <input
+          clrControl
+          autocomplete="off"
+          placeholder="Write Value"
+          [(ngModel)]="item.value"
+          (keyup)="dirty = true"
+          autofocus="true"
+        />
+      </clr-dg-cell>
+    </clr-dg-row>
+  </clr-datagrid>
+</div>

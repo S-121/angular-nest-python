@@ -1,0 +1,114 @@
+<div class="card" style="height: 100%; margin: 0">
+  <div class="card-header">
+    <clr-icon shape="list"></clr-icon> Users List
+    <a class="btn btn-sm" [routerLink]="['do']">
+      <clr-icon shape="add"></clr-icon> ADD User
+    </a>
+  </div>
+  <div class="card-block" style="height: 88%; overflow-y: scroll">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="users?.length; else noData">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="left table-header">Image</th>
+            <th class="left table-header">Username</th>
+            <th class="left table-header">Email</th>
+            <th class="left table-header">Created By</th>
+            <th class="left table-header">Role</th>
+            <th class="left table-header">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td class="left">
+              <div class="card-media-block">
+                <img
+                  [src]="user.picture || '/assets/placeholder.png'"
+                  class="card-media-image user-image"
+                />
+              </div>
+            </td>
+            <td class="left">{{ user.name }}</td>
+            <td class="left">{{ user.email }}</td>
+            <td class="left">{{ user.createdBy?.email || "---" }}</td>
+            <td class="left">{{ user?.level === 1 ? "ADMIN" : "USER" }}</td>
+            <td class="left">
+              <button
+                type="button"
+                class="btn btn-icon btn-link"
+                aria-label="home"
+                *ngIf="_user.level <= user.level || _user.level"
+                (click)="editUser($event, user._id)"
+              >
+                <clr-icon shape="pencil"></clr-icon>
+              </button>
+              <button
+                type="button"
+                class="btn btn-icon btn-link"
+                aria-label="warning"
+                *ngIf="(_user.level < user.level || !user.level) && _user.id != user._id"
+                (click)="openConfirmDialog($event, user)"
+              >
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noData>
+      <div class="not-data" *ngIf="!isLoading">
+        <p>
+          <img src="/assets/no_data.png" alt="" />
+        </p>
+        <p>There is not data <strong>Please</strong> Do the following</p>
+        <ol>
+          <li>
+            <strong>Add new User </strong>
+          </li>
+        </ol>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<clr-modal [(clrModalOpen)]="confirmDelete">
+  <h3 class="modal-title">Confirmation</h3>
+  <div class="modal-body">
+    <p>
+      Are you sure you want to delete
+      <strong>{{ currentUser?.username }}</strong>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline"
+      (click)="confirmDelete = false"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="deleteUser(currentUser)"
+    >
+      Confirm
+    </button>
+  </div>
+</clr-modal>

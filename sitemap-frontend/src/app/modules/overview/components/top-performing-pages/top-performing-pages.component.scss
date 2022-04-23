@@ -1,0 +1,20 @@
+table {
+  width: 100%;
+}
+clr-dg-row {
+  cursor: pointer !important;
+}
+
+.active {
+  font-weight: bolder;
+}
+::ng-deep {
+  button.btn-danger,
+  button.btn-danger clr-icon {
+    color: white !important;
+  }
+}
+
+.limit-height clr-datagrid {
+  height: 55vh;
+}

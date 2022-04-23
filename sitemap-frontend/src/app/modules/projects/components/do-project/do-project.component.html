@@ -1,0 +1,243 @@
+<div class="card" style="height: 100%; margin: 0">
+  <div class="card-header">
+    <clr-icon shape="add" *ngIf="mode === 'ADD'; else editIcon"></clr-icon>
+    <ng-template #editIcon>
+      <clr-icon shape="pencil"></clr-icon>
+    </ng-template>
+
+    {{ mode === "ADD" ? "Add Project" : "Edit Project" }}
+  </div>
+  <div class="card-block" style="height: 88%; overflow-y: scroll" id="top">
+    <div class="alert alert-danger" *ngIf="fail" role="alert">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">Can't Save project! there is error.</div>
+        </div>
+      </div>
+      <button
+        type="button"
+        (click)="fail = false"
+        class="close"
+        aria-label="Close"
+      >
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
+    <div class="alert alert-success" *ngIf="success" role="alert">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+          </div>
+          <span class="alert-text"> Success! Project was saved. </span>
+        </div>
+      </div>
+      <button
+        type="button"
+        (click)="success = false"
+        class="close"
+        aria-label="Close"
+      >
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
+
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="clr-row">
+      <div class="clr-col-lg-6 clr-col-12">
+        <form
+          class="form-flex"
+          clrForm
+          [formGroup]="formGroup"
+          clrLayout="horizontal"
+          clrLabelSize="4"
+          (submit)="$event.preventDefault()"
+          novalidate
+        >
+          <clr-control-container>
+            <label>Project Name</label>
+            <input
+              clrControl
+              placeholder="Project Name"
+              formControlName="name"
+            />
+            <clr-control-helper
+              >Enter project name (required)</clr-control-helper
+            >
+            <clr-control-error *clrIfError="'required'"
+              >Project name is a required field</clr-control-error
+            >
+          </clr-control-container>
+
+          <clr-control-container>
+            <label>Project Url</label>
+            <input
+              clrControl
+              placeholder="Project Url"
+              formControlName="_url"
+              (keyup)="urlChanged($event.target.value)"
+            />
+            <clr-control-helper
+              >Enter project Url (required) ex: example.com</clr-control-helper
+            >
+            <clr-control-error *clrIfError="'required'"
+              >Project Url is a required field</clr-control-error
+            >
+          </clr-control-container>
+
+          <clr-textarea-container>
+            <label>Project Description</label>
+            <textarea
+              clrTextarea
+              placeholder="Project Description"
+              formControlName="description"
+            ></textarea>
+            <clr-control-helper
+              >Enter project description (required)</clr-control-helper
+            >
+            <clr-control-error *clrIfError="'required'"
+              >Project description is a required field</clr-control-error
+            >
+          </clr-textarea-container>
+
+          <clr-select-container>
+            <label>Project type</label>
+            <select
+              clrSelect
+              name="projectConversions"
+              formControlName="projectConversions"
+              required
+            >
+              <option value="">Select one</option>
+              <option value="ecommerce">eCommerce Goals</option>
+              <option value="goal">Standard Goals</option>
+            </select>
+            <clr-control-helper>Project type (required)</clr-control-helper>
+            <clr-control-error>Project type is required!</clr-control-error>
+          </clr-select-container>
+
+          <!-- <clr-textarea-container>
+            <label>Project Keywords</label>
+            <textarea
+              clrTextarea
+              placeholder="Project Keywords"
+              formControlName="keywords"
+            ></textarea>
+            <clr-control-helper
+              >Enter keywords associated with a project separated by commas (required)</clr-control-helper
+            >
+            <clr-control-error *clrIfError="'required'"
+              >Please enter project keywords</clr-control-error
+            >
+          </clr-textarea-container> -->
+
+          <clr-checkbox-container>
+            <clr-checkbox-wrapper>
+              <input
+                type="checkbox"
+                clrCheckbox
+                formControlName="ga"
+                value="true"
+                (change)="toggelGa()"
+              />
+              <label>Google Analytics </label>
+            </clr-checkbox-wrapper>
+          </clr-checkbox-container>
+          <clr-combobox-container  *ngIf="ga?.value">
+            <label>Select Property</label>
+              
+            <clr-combobox formControlName="property" name="property" required 
+              placeholder="Select a property" (clrInputChange)="$event ? changeProperty(true, $event) : null">
+              <clr-options>
+                <clr-option *clrOptionItems="let prop of properties; field: 'name'" [clrValue]="prop" >{{ prop.name }}</clr-option>
+              </clr-options>
+            </clr-combobox>
+            <clr-control-helper>Select Property (required)</clr-control-helper>
+            <clr-control-error>Property is required!</clr-control-error>
+          </clr-combobox-container>
+
+          <clr-combobox-container  *ngIf="ga?.value">
+            <label>Select views</label>
+              
+            <clr-combobox name="viewId" formControlName="viewId" required 
+              placeholder="Select a views">
+              <clr-options>
+                <clr-option *clrOptionItems="let view of views; field: 'name'" [clrValue]="view" >{{ view.name }}</clr-option>
+              </clr-options>
+            </clr-combobox>
+            <clr-control-helper>Select view (required)</clr-control-helper>
+            <clr-control-error>view is required!</clr-control-error>
+          </clr-combobox-container>
+
+
+          <clr-checkbox-container clrInline>
+            <clr-checkbox-wrapper>
+              <input
+                type="checkbox"
+                clrCheckbox
+                formControlName="gsc"
+                value="true"
+                (change)="toggelGoogleConsole()"
+              />
+              <label>Google Search Console </label>
+            </clr-checkbox-wrapper>
+          </clr-checkbox-container>
+
+          <clr-combobox-container  *ngIf="gsc?.value">
+            <label>Select Url</label>
+              
+            <clr-combobox name="url" formControlName="url" required 
+              placeholder="Select a url">
+              <clr-options>
+                <clr-option *clrOptionItems="let site of urls; field: 'siteUrl'" [clrValue]="site" >{{ site?.siteUrl }}</clr-option>
+              </clr-options>
+            </clr-combobox>
+            <clr-control-helper>Select Url (required)</clr-control-helper>
+            <clr-control-error>Url is required!</clr-control-error>
+          </clr-combobox-container>
+
+          <clr-control-container>
+            <label>Project Image</label>
+            <button
+              class="btn image-btn"
+              (click)="$event.preventDefault(); imageInput.click()"
+            >
+              <img
+                [src]="image.value || '/assets/placeholder.png'"
+                class="card-media-image"
+              />
+            </button>
+            <input
+              type="file"
+              accept="image/*"
+              #imageInput
+              (change)="loadImage($event)"
+              style="display: none"
+            />
+          </clr-control-container>
+        </form>
+      </div>
+      <div class="clr-col-lg-6 clr-col-12">
+        <app-project-users
+          *ngIf="showUsers"
+          [projectId]="projectId"
+          [users]="users"
+        ></app-project-users>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button class="btn" [disabled]="formGroup.invalid" (click)="save()">
+      SAVE
+    </button>
+    <a class="btn" [routerLink]="['/main/projects']"> BACK </a>
+  </div>
+</div>

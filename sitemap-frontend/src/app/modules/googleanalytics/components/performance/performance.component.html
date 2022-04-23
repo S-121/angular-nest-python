@@ -1,0 +1,163 @@
+<div
+  class="card clr-align-self-center"
+  style="width: 100%; min-height: 400px; overflow-x: scroll"
+>
+  <div class="card-block">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <h4 class="card-title">Performance
+      <div class="device-selection">
+        <button class="btn btn-icon btn-sm {{device == 'desktop' ? 'active': '' }}"
+          (click)="changeDevice('desktop')">
+          <clr-icon shape="computer"></clr-icon>
+        </button>
+        <button class="btn btn-icon btn-sm  {{device == 'mobile' ? 'active': '' }}"
+          (click)="changeDevice('mobile')">
+          <clr-icon shape="mobile"></clr-icon>
+        </button>
+      </div>
+    </h4>
+    <div class="limit-height">
+      <clr-datagrid
+        (clrDgRefresh)="refreshFn($event)"
+        [clrDgLoading]="isLoading"
+      >
+        <clr-dg-column [clrDgField]="'url'" class="width30 table-header">
+          URL</clr-dg-column
+        >
+        
+        <clr-dg-column [clrDgField]="'fcp'" class="width10 table-header">
+          <clr-tooltip>
+            <span clrTooltipTrigger>FCP</span>
+            <clr-tooltip-content
+              clrPosition="tooltip-bottom-right"
+              clrSize="sm"
+              *clrIfOpen
+            >
+              First Contextual Paint
+            </clr-tooltip-content>
+          </clr-tooltip>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'si'" class="width10 table-header">
+          <clr-tooltip>
+            <span clrTooltipTrigger>SI</span>
+            <clr-tooltip-content
+              clrPosition="tooltip-bottom-right"
+              clrSize="sm"
+              *clrIfOpen
+            >
+              Speed Index
+            </clr-tooltip-content>
+          </clr-tooltip>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'lcp'" class="width10 table-header">
+          <clr-tooltip>
+            <span clrTooltipTrigger>LCP</span>
+            <clr-tooltip-content
+              clrPosition="tooltip-bottom-right"
+              clrSize="sm"
+              *clrIfOpen
+            >
+              Largest Contentful Paint
+            </clr-tooltip-content>
+          </clr-tooltip>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'tti'" class="width10 table-header">
+          <clr-tooltip>
+            <span clrTooltipTrigger>TTI</span>
+            <clr-tooltip-content
+              clrPosition="tooltip-bottom-right"
+              clrSize="sm"
+              *clrIfOpen
+            >
+              Interactive
+            </clr-tooltip-content>
+          </clr-tooltip></clr-dg-column
+        >
+        <clr-dg-column [clrDgField]="'tbt'" class="width10 table-header">
+          <clr-tooltip>
+            <span clrTooltipTrigger>TBT</span>
+            <clr-tooltip-content
+              clrPosition="tooltip-bottom-right"
+              clrSize="sm"
+              *clrIfOpen
+            >
+              Total Blocking Time
+            </clr-tooltip-content>
+          </clr-tooltip>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'cls'" class="width10 table-header">
+          <clr-tooltip>
+            <span clrTooltipTrigger>CLS</span>
+            <clr-tooltip-content
+              clrPosition="tooltip-bottom-right"
+              clrSize="sm"
+              *clrIfOpen
+            >
+              Cumulative Layout Shift
+            </clr-tooltip-content>
+          </clr-tooltip></clr-dg-column
+        >
+        <clr-dg-column [clrDgField]="'ps'" class="width10 table-header">
+          <clr-tooltip>
+            <span clrTooltipTrigger>PS</span>
+            <clr-tooltip-content
+              clrPosition="tooltip-bottom-left"
+              clrSize="sm"
+              *clrIfOpen
+            >
+              Performance Score
+            </clr-tooltip-content>
+          </clr-tooltip></clr-dg-column
+        >
+
+        <clr-dg-row
+          *ngFor="let item of result"
+          style="width: 100%"
+          [clrDgItem]="item"
+        >
+          <clr-dg-cell class="width30">{{ item.url | pagePath }} </clr-dg-cell>
+          <clr-dg-cell class="width10">{{ item.fcp }}</clr-dg-cell>
+          <clr-dg-cell class="width10">{{ item.si }}</clr-dg-cell>
+          <clr-dg-cell [ngClass]="getLcpClass(item.lcp)" class="width10">{{
+            item.lcp
+          }}</clr-dg-cell>
+          <clr-dg-cell class="width10">{{ item.tti }}</clr-dg-cell>
+          <clr-dg-cell [ngClass]="getTbtClass(item.tbt)" class="width10">{{
+            item.tbt
+          }}</clr-dg-cell>
+          <clr-dg-cell [ngClass]="getClsClass(item.cls)" class="width10">{{
+            item.cls
+          }}</clr-dg-cell>
+          <clr-dg-cell class="width10">{{
+            item.ps | number: "1.1-2"
+          }}</clr-dg-cell>
+        </clr-dg-row>
+        <clr-dg-footer>
+          <clr-dg-pagination
+            #pagination
+            [clrDgPageSize]="pageSize"
+            [clrDgTotalItems]="count"
+          >
+            {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+            {{ count }}
+          </clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </div>
+  </div>
+</div>

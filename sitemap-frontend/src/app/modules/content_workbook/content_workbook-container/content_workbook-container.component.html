@@ -1,0 +1,59 @@
+<div class="card" style="height: 100%; margin: 0">
+  <div class="card-header">
+    <clr-icon shape="book"></clr-icon> Content Workbook
+  </div>
+  <div class="card-block" style="height: 95%; overflow-y: scroll">
+    <clr-tabs>
+      <clr-tab>
+        <button clrTabLink>
+          <clr-icon shape="pinboard"></clr-icon>
+          In Queue
+        </button>
+        <clr-tab-content *clrIfActive="true">
+          <app-tab-one></app-tab-one>
+        </clr-tab-content>
+      </clr-tab>
+      <clr-tab>
+        <button clrTabLink [disabled]="__contentWorkbookService.dirty">
+          <clr-icon shape="check-circle"></clr-icon>
+          Published
+        </button>
+        <clr-tab-content *clrIfActive>
+          <app-tab-two #appTabTwo></app-tab-two>
+        </clr-tab-content>
+      </clr-tab>
+      <clr-tab>
+        <button clrTabLink [disabled]="__contentWorkbookService.dirty">
+          <clr-icon shape="archive"></clr-icon>
+          Graveyard
+        </button>
+        <clr-tab-content *clrIfActive>
+          <app-tab-four></app-tab-four>
+        </clr-tab-content>
+      </clr-tab>
+      <clr-tab>
+        <button clrTabLink [disabled]="__contentWorkbookService.dirty">
+          <clr-icon shape="file-settings"></clr-icon>
+          Settings
+        </button>
+        <clr-tab-content *clrIfActive>
+          <app-tab-three></app-tab-three>
+        </clr-tab-content>
+      </clr-tab>
+    </clr-tabs>
+  </div>
+</div>
+<clr-modal [(clrModalOpen)]="confirmLeaving">
+  <h3 class="modal-title">Confirmation</h3>
+  <div class="modal-body">
+    <p>Are you sure you want to leave without saving</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="leave(0)">
+      Leave without saving
+    </button>
+    <button type="button" class="btn btn-outline" (click)="leave(1)">
+      Save
+    </button>
+  </div>
+</clr-modal>

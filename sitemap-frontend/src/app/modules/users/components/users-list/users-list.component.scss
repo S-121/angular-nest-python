@@ -1,0 +1,22 @@
+img.user-image {
+  width: 60px;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+td {
+  height: 50px !important;
+  line-height: 40px !important;
+}
+
+.btn-danger {
+  color: #fff !important;
+}
+::ng-deep {
+  .not-data {
+    width: 100%;
+    text-align: center !important;
+    font-weight: bold;
+  }
+}

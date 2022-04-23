@@ -1,0 +1,534 @@
+<div class="card" style="margin: 0; min-height: 100%">
+  <div class="card-header">
+    <div class="clr-row">
+      <div class="clr-col-lg-4 clr-col-12">
+        <clr-icon shape="factory"></clr-icon> Master WQA
+      </div>
+      <div class="clr-col-lg-8 clr-col-12" style="text-align: right">
+        <button
+          class="btn"
+          style="color: black"
+          (click)="$event.preventDefault(); csvInput.click()"
+        >
+          <clr-icon shape="upload"></clr-icon>
+          Upload CSV file
+        </button>
+        <input
+          type="file"
+          accept=".csv"
+          #csvInput
+          (change)="loadCSV($event)"
+          style="display: none"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="card-block">
+    <div
+      class="card clr-align-self-center"
+      style="width: 100%; min-height: 400px; overflow-x: scroll; padding: 0"
+    >
+      <div class="card-block" style="padding: 5px; margin: 0">
+        <div *ngIf="isLoading" class="progress top loop">
+          <progress></progress>
+        </div>
+        <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+          <div class="alert-items">
+            <div class="alert-item static">
+              <div class="alert-icon-wrapper">
+                <clr-icon
+                  class="alert-icon"
+                  shape="exclamation-triangle"
+                ></clr-icon>
+              </div>
+              <div class="alert-text">{{ error }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="limit-height">
+          <clr-datagrid
+            *ngIf="data?.length; else noData"
+            style="padding: 5px; margin: 0; width: 100%"
+            class="table table-noborder"
+            (clrDgRefresh)="refreshFn($event)"
+            [clrDgLoading]="isLoading"
+            #datagridRef
+          >
+            <clr-dg-column
+              class="width table-header"
+              [clrDgField]="'urlAction'"
+            >
+              URL Action</clr-dg-column
+            >
+
+            <clr-dg-column class="width table-header" [clrDgField]="'url'">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >URL</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header" [clrDgField]="'category'">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Category</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column
+              class="width table-header"
+              [clrDgField]="'contentTitle'"
+            >
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Current Title</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header" [clrDgField]="'meta'">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Meta</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header" [clrDgField]="'h1'">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >H1</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column
+              class="width table-header"
+              [clrDgField]="'wordCount'"
+            >
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Word Count</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Sessions</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Sales/Goal Completions</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Goal Conversion Rate</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Bounce Rate</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Avg. TimeOnPage</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Impressions</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header" [clrDgField]="'mainKW'">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Main KW</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Main KW Rank</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Main KW Volume</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header" [clrDgField]="'bestKW'">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Best KW</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Best KW Rank</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Best KW Volume</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Canonical Link Element</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Status Code</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Index/No-Index</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Last Modified</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Inlink</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-column class="width table-header">
+              <ng-container *clrDgHideableColumn="{ hidden: false }"
+                >Outlinks</ng-container
+              >
+            </clr-dg-column>
+
+            <clr-dg-row *ngFor="let item of data">
+              <clr-dg-cell class="{{ urlActionsClasses[item.urlAction] }}">
+                <clr-select-container>
+                  <select
+                    clrSelect
+                    name="urlAction"
+                    (change)="urlActionChange(item)"
+                    [value]="item.urlAction"
+                    [(ngModel)]="item.urlAction"
+                  >
+                    <option value="Leave As Is">Leave As Is</option>
+                    <option value='Update "On Page"'>Update "On Page"</option>
+                    <option value="Target w/ Links">Target w/ Links</option>
+                    <option value="301">301</option>
+                    <option value="Canonicalize">Canonicalize</option>
+                    <option value="Block Crawl">Block Crawl</option>
+                    <option value="No Index">No Index</option>
+                    <option value="Content audit">Content audit</option>
+                  </select>
+                </clr-select-container>
+              </clr-dg-cell>
+
+              <clr-dg-cell class="width"
+                ><a [href]="item['url']" target="__blank">{{
+                  item["url"] | pagePath
+                }}</a></clr-dg-cell
+              >
+              <clr-dg-cell>
+                <clr-select-container>
+                  <select
+                    clrSelect
+                    name="property"
+                    name="category"
+                    (change)="urlActionChange(item)"
+                    [value]="item.category"
+                    [(ngModel)]="item.category"
+                  >
+                    <option value="Product Page">Product Page</option>
+                    <option value="Lead Generation">Lead Generation</option>
+                    <option value="Product Category">Product Category</option>
+                    <option value="Blog Post">Blog Post</option>
+                  </select>
+                </clr-select-container>
+              </clr-dg-cell>
+              <clr-dg-cell class="width left">
+                <clr-tooltip>
+                  <span clrTooltipTrigger>
+                    {{
+                      item["contentTitle"]?.length > 50
+                        ? (item["contentTitle"] | slice: 0:50) + ".."
+                        : item["contentTitle"]
+                    }}</span
+                  >
+                  <clr-tooltip-content
+                    clrPosition="tooltip-bottom-right"
+                    clrSize="md"
+                    *clrIfOpen
+                  >
+                    {{ item["contentTitle"] }}
+                  </clr-tooltip-content>
+                </clr-tooltip>
+              </clr-dg-cell>
+              <clr-dg-cell class="width">
+                <clr-tooltip>
+                  <span clrTooltipTrigger>
+                    {{
+                      item["meta"]?.length > 50
+                        ? (item["meta"] | slice: 0:50) + ".."
+                        : item["meta"]
+                    }}</span
+                  >
+                  <clr-tooltip-content
+                    clrPosition="tooltip-bottom-right"
+                    clrSize="md"
+                    *clrIfOpen
+                  >
+                    {{ item["meta"] }}
+                  </clr-tooltip-content>
+                </clr-tooltip>
+              </clr-dg-cell>
+              <clr-dg-cell class="width">{{ item["h1"] }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["wordCount"] | shortNumber
+              }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["sessions"] | shortNumber
+              }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["goalCompletions"]
+              }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["goalConversionRate"]
+              }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["bounceRate"] | number: "1.1-1"
+              }}</clr-dg-cell>
+
+              <clr-dg-cell class="width"
+                >{{
+                  item["avgTimeOnPage"] || "0" | number: "1.1-1"
+                }}
+                s</clr-dg-cell
+              >
+
+              <clr-dg-cell class="width">{{
+                item["impressions"] | shortNumber
+              }}</clr-dg-cell>
+
+              <clr-dg-cell class="width">
+                <clr-tooltip>
+                  <span clrTooltipTrigger>
+                    {{
+                      item["mainKw"]?.length > 50
+                        ? (item["mainKw"] | slice: 0:50) + ".."
+                        : item["mainKw"]
+                    }}</span
+                  >
+                  <clr-tooltip-content
+                    clrPosition="tooltip-bottom-right"
+                    clrSize="sm"
+                    *clrIfOpen
+                  >
+                    {{ item["mainKw"] }}
+                  </clr-tooltip-content>
+                </clr-tooltip>
+              </clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["mainKwPosition"]
+              }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["mainKwVolume"]
+              }}</clr-dg-cell>
+
+              <clr-dg-cell class="width">
+                <clr-tooltip>
+                  <span clrTooltipTrigger>
+                    {{
+                      item["bestKw"]?.length > 50
+                        ? (item["bestKw"] | slice: 0:50) + ".."
+                        : item["bestKw"]
+                    }}</span
+                  >
+                  <clr-tooltip-content
+                    clrPosition="tooltip-bottom-right"
+                    clrSize="sm"
+                    *clrIfOpen
+                  >
+                    {{ item["bestKw"] }}
+                  </clr-tooltip-content>
+                </clr-tooltip>
+              </clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["bestKwPosition"]
+              }}</clr-dg-cell>
+              <clr-dg-cell class="width">
+                {{ item["bestKwVolume"] }}</clr-dg-cell
+              >
+
+              <clr-dg-cell class="width">{{
+                item["connicalLinkelement"] | pagePath
+              }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{ item["statusCode"] }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["indexNonIndex"]
+              }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["lastModified"]
+              }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["inlinks"] | shortNumber
+              }}</clr-dg-cell>
+              <clr-dg-cell class="width">{{
+                item["outlinks"] | shortNumber
+              }}</clr-dg-cell>
+
+              <clr-dg-row-detail *clrIfExpanded [clrDgReplace]="true">
+                <clr-dg-cell class="left">
+                  <clr-select-container>
+                    <select
+                      clrSelect
+                      name="urlAction"
+                      (change)="urlActionChange(item)"
+                      [value]="item.urlAction"
+                      [(ngModel)]="item.urlAction"
+                    >
+                      <option value="Leave As Is">Leave As Is</option>
+                      <option value='Update "On Page"'>Update "On Page"</option>
+                      <option value="Target w/ Links">Target w/ Links</option>
+                      <option value="301">301</option>
+                      <option value="Canonicalize">Canonicalize</option>
+                      <option value="Block Crawl">Block Crawl</option>
+                      <option value="No Index">No Index</option>
+                      <option value="Content audit">Content audit</option>
+                    </select>
+                  </clr-select-container>
+                </clr-dg-cell>
+
+                <clr-dg-cell class="left"
+                  ><a [href]="item['url']" target="__blank">{{
+                    item["url"] | pagePath
+                  }}</a>
+                </clr-dg-cell>
+                <clr-dg-cell>
+                  <clr-select-container>
+                    <select
+                      class="left"
+                      clrSelect
+                      name="category"
+                      (change)="urlActionChange(item)"
+                      [value]="item.category"
+                      [(ngModel)]="item.category"
+                    >
+                      <option value="Product Page">Product Page</option>
+                      <option value="Product Category">Product Category</option>
+                      <option value="Lead Generation">Lead Generation</option>
+                      <option value="Blog Post">Blog Post</option>
+                    </select>
+                  </clr-select-container>
+                </clr-dg-cell>
+                <clr-dg-cell class="left">
+                  {{ item["contentTitle"] }}
+                </clr-dg-cell>
+                <clr-dg-cell class="left">
+                  {{ item["meta"] }}
+                </clr-dg-cell>
+                <clr-dg-cell class="left">{{ item["h1"] }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["wordCount"] | shortNumber
+                }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["sessions"] | shortNumber
+                }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["goalCompletions"]
+                }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["goalConversionRate"]
+                }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["bounceRate"] | number: "1.1-1"
+                }}</clr-dg-cell>
+
+                <clr-dg-cell class="left"
+                  >{{
+                    item["avgTimeOnPage"] || "0" | number: "1.1-1"
+                  }}
+                  s</clr-dg-cell
+                >
+
+                <clr-dg-cell class="left">{{
+                  item["impressions"] | shortNumber
+                }}</clr-dg-cell>
+
+                <clr-dg-cell class="left">
+                  {{ item["mainKw"] }}
+                </clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["mainKwPosition"]
+                }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["mainKwVolume"]
+                }}</clr-dg-cell>
+
+                <clr-dg-cell class="left">
+                  {{ item["bestKw"] }}
+                </clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["bestKwPosition"]
+                }}</clr-dg-cell>
+                <clr-dg-cell class="left">
+                  {{ item["bestKwVolume"] }}</clr-dg-cell
+                >
+
+                <clr-dg-cell class="left">{{
+                  item["connicalLinkelement"] | pagePath
+                }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{ item["statusCode"] }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["indexNonIndex"]
+                }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["lastModified"]
+                }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["inlinks"] | shortNumber
+                }}</clr-dg-cell>
+                <clr-dg-cell class="left">{{
+                  item["outlinks"] | shortNumber
+                }}</clr-dg-cell>
+              </clr-dg-row-detail>
+            </clr-dg-row>
+            <clr-dg-footer>
+              <clr-dg-pagination
+                #pagination
+                [clrDgPageSize]="pageSize"
+                [clrDgTotalItems]="count"
+              >
+                {{ pagination.firstItem + 1 }} -
+                {{ pagination.lastItem + 1 }} of
+                {{ count }}
+              </clr-dg-pagination>
+            </clr-dg-footer>
+          </clr-datagrid>
+        </div>
+        <ng-template #noData>
+          <div class="not-data" *ngIf="!isLoading">
+            <p>
+              <img src="/assets/no_data.png" alt="" />
+            </p>
+            <p>There is not data <strong>Please</strong> Do the following</p>
+            <ol>
+              <li>
+                <strong>Upload CSV file to get the basic info </strong>
+              </li>
+            </ol>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

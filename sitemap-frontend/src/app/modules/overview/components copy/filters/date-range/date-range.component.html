@@ -1,0 +1,22 @@
+<form clrForm>
+  <clr-date-container (click)="open()">
+    <label>Start</label>
+    <input
+      type="date"
+      clrDate
+      [(ngModel)]="filter.start"
+      (ngModelChange)="ngModelChange()"
+      name="start"
+    />
+  </clr-date-container>
+  <clr-date-container (click)="open()">
+    <label>End</label>
+    <input
+      type="date"
+      clrDate
+      [(ngModel)]="filter.end"
+      (ngModelChange)="ngModelChange()"
+      name="end"
+    />
+  </clr-date-container>
+</form>

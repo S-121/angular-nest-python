@@ -1,0 +1,101 @@
+<div class="card" style="margin: 0">
+  <div class="card-header">
+    <div class="clr-row">
+      <div class="clr-col-lg-5 clr-col-12 clr-col-sm-12 clr-col-md-12">
+        <clr-icon shape="pin"></clr-icon> Overview
+      </div>
+      <div class="clr-col-lg-7 clr-col-12 clr-col-sm-12 clr-col-md-12">
+        <form
+          clrForm
+          clrLayout="horizontal"
+          style="margin: 0; padding: 0; text-align: right"
+        >
+          <div class="clr-row filters" [formGroup]="filterForm">
+            <div class="clr-col-lg-4 clr-col-12 clr-col-sm-12 clr-col-md-12">
+              <clr-select-container>
+                <select
+                  clrSelect
+                  required
+                  formControlName="range"
+                  (change)="rangeChange()"
+                >
+                  <option *ngFor="let range of ranges" [value]="range.value">
+                    {{ range.title }}
+                  </option>
+                </select>
+              </clr-select-container>
+            </div>
+            <div class="clr-col-lg-3 clr-col-12">
+              <clr-date-container>
+                <input
+                  type="date"
+                  clrDate
+                  formControlName="endDate"
+                  (onchange)="dateChange()"
+                  style="width: 100%"
+                  [max]="maxDate()"
+                />
+                <clr-control-error *clrIfError="'correctRange'"
+                  >End Date should be before start date</clr-control-error
+                >
+              </clr-date-container>
+            </div>
+            <div class="clr-col-lg-3 clr-col-12">
+              <clr-date-container>
+                <input
+                  type="date"
+                  clrDate
+                  formControlName="startDate"
+                  (onchange)="dateChange()"
+                  style="width: 100%"
+                  [max]="maxDate()"
+                />
+              </clr-date-container>
+            </div>
+
+            <div
+              class="clr-col-lg-2 clr-col-12 clr-col-sm-12 clr-col-md-12 devices"
+            >
+              <button
+                class="btn btn-icon btn-sm"
+                [ngClass]="{ 'btn-primary': devices.has('mobile') }"
+                (click)="deviceFilterChange($event, 'mobile')"
+              >
+                <clr-icon shape="mobile"></clr-icon>
+              </button>
+              <button
+                class="btn btn-icon btn-sm"
+                [ngClass]="{ 'btn-primary': devices.has('desktop') }"
+                (click)="deviceFilterChange($event, 'desktop')"
+              >
+                <clr-icon shape="computer"></clr-icon>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div
+    class="card-block"
+    style="min-height: 90vh; height: 90vh; overflow-x: scroll"
+  >
+    <div class="clr-row">
+      <div class="clr-col-12 clr-col-lg-12">
+        <div class="clr-row" style="margin-bottom: 10px">
+          <div class="clr-col-12 clr-col-lg-6">
+            <app-overview-chart></app-overview-chart>
+          </div>
+          <div class="clr-col-12 clr-col-lg-6">
+            <app-earning-chart></app-earning-chart>
+          </div>
+        </div>
+        <div class="clr-row" style="margin-bottom: 20px">
+          <div class="clr-col-12 clr-col-lg-12">
+            <app-top-performing-pages></app-top-performing-pages>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

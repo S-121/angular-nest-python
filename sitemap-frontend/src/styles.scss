@@ -1,0 +1,257 @@
+clr-icon {
+  color: black;
+}
+
+a.btn,
+button.btn {
+  color: black !important;
+  border-color: black;
+}
+
+.nav-text {
+  color: black;
+}
+
+button:focus {
+  outline: 0 !important;
+}
+
+*:focus {
+  outline: 0 !important;
+}
+
+.table-header,
+div.datagrid-column.datagrid-select.datagrid-fixed-column.ng-star-inserted,
+div.datagrid-column.datagrid-expandable-caret.datagrid-fixed-column.ng-star-inserted {
+  background-color: #0072a3 !important;
+  text-transform: uppercase !important;
+  font-weight: 600;
+  font-size: 0.55rem;
+}
+
+.table-header .datagrid-column-title,
+.table-header clr-icon,
+.table-header th,
+th {
+  color: white !important;
+  text-transform: uppercase !important;
+  font-weight: 600;
+  font-size: 0.55rem;
+}
+
+.table-header clr-icon {
+  font-size: 10px !important;
+}
+
+clr-dg-row:nth-child(even),
+tr:nth-child(even),
+.datagrid-select:nth-child(even) {
+  background-color: #fff !important;
+}
+clr-dg-row:nth-child(odd),
+tr:nth-child(odd) {
+  background-color: #ecf0f1 !important;
+}
+
+.datagrid-select,
+div.datagrid-cell.ng-star-inserted {
+  background-color: #0072a3 !important;
+}
+.limit-height clr-datagrid {
+  height: 70vh;
+}
+
+/* in-flight clone */
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  pointer-events: none;
+}
+/* high-performance display:none; helper */
+.gu-hide {
+  left: -9999px !important;
+}
+/* added to mirrorContainer (default = body) while dragging */
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+/* added to the source element while its mirror is dragged */
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+}
+
+.dragItem {
+  background-color: #0072a3 !important;
+  color: #fff;
+  min-height: 35px !important;
+  line-height: 35px;
+  height: auto !important;
+  text-align: center;
+  padding: 5px;
+  border-radius: 30px;
+  cursor: pointer;
+  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  width: 100%;
+  margin: auto;
+  margin-top: 5px;
+  margin-left: 0;
+}
+.dragItem clr-icon {
+  color: white !important;
+}
+
+.hidden {
+  display: none;
+}
+
+.shadow {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  border: 2px dotted #ccc;
+}
+.shadow.focus {
+  border: 2px dotted #0072a3;
+}
+.width {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 190px;
+  overflow: hidden;
+}
+
+
+.search-food {
+  border: 1px solid #ccc;
+  margin: 10px auto;
+  border-radius: 3px;
+
+  .container {
+    width: 100%;
+    margin: 0;
+  
+    .tag-container {
+      background: #fff;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      padding: 6px;
+  
+      .tag {
+        height: 30px;
+        margin: 5px;
+        padding: 5px 6px;
+        border: 1px solid #ff794f;
+        border-radius: 3px;
+        background: #ff794f;
+        display: flex;
+        align-items: center;
+        color: white;
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0.2), inset 0 0 1px #fff;
+        cursor: default;
+        
+        i {
+          font-size: 16px;
+          color: #666;
+          margin-left: 5px;
+        }
+      }
+      
+      input {
+        padding: 5px;
+        font-size: 16px;
+        border: 0;
+        outline: none;
+        font-family: 'Rubik';
+        color: #333;
+        flex: 1;
+      }
+    }
+  }
+
+  .find-keywords {
+    margin: 10px auto;
+    text-align: right;
+    
+    button {
+      color: white!important;
+    }
+  }
+}
+
+
+
+.graph {
+  font:normal 100%/150% arial,helvetica,sans-serif;
+}
+
+.graph caption {
+	font:bold 150%/120% arial,helvetica,sans-serif;
+	padding-bottom:0.33em;
+}
+
+.graph tbody th {
+	text-align:right;
+}
+
+@supports (display:grid) {
+
+	@media (min-width:32em) {
+
+		.graph {
+			display:block;
+      width:100%;
+      height:50px;
+      margin: 0;
+		}
+
+		.graph tbody {
+			position:relative;
+			display:grid;
+			grid-template-columns:repeat(auto-fit, minmax(1em, 0fr));
+			align-items:end;
+			height:100%;
+			padding:0 1em;
+		}
+
+		.graph tr {
+			position:relative;
+			display:block;
+      width: 10px;
+		}
+
+		.graph th,
+		.graph td {
+			display:block;
+			text-align:center;
+		}
+
+		.graph tbody th {
+			position:absolute;
+			top:-3em;
+			left:0;
+			width:100%;
+			font-weight:normal;
+			text-align:center;
+      white-space:nowrap;
+			text-indent:0;
+			transform:rotate(-45deg);
+		}
+
+		.graph td {
+			width:100%;
+			height:100%;
+			background:#F63;
+			border-radius:0.5em 0.5em 0 0;
+			transition:background 0.5s;
+		}
+	}
+}

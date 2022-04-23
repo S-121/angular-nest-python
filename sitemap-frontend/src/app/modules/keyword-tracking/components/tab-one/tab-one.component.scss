@@ -1,0 +1,26 @@
+.width {
+  width: 6%;
+  min-width: 6%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+i.fa-arrow-up,
+.good {
+  color: #27ae60 !important;
+  font-weight: bold;
+}
+
+i.fa-arrow-down,
+.poor {
+  color: #c0392b !important;
+  font-weight: bold;
+}
+
+.white clr-icon {
+  color: white !important;
+}
+
+clr-icon {
+  color: black !important;
+}

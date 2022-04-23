@@ -1,0 +1,157 @@
+<div class="card" style="height: 100vh; margin: 0">
+  <div class="card-header">
+    <clr-icon shape="list"></clr-icon> Projects List
+    <a class="btn btn-sm" [routerLink]="['do']" *ngIf="_user?.level === 1">
+      <clr-icon shape="add"></clr-icon> ADD PROJECT
+    </a>
+  </div>
+  <div class="card-block" style="height: 88%; overflow-y: scroll">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="projects?.length; else noData">
+      <div class="clr-row project-list">
+        <div
+          class="clr-col-lg-3 clr-col-md-6 clr-col-sm-12 clr-col-12"
+          *ngFor="let project of projects"
+          (click)="selectProject(project)"
+        >
+          <div class="card">
+            <div class="card-block">
+              <p class="card-text">
+                <strong>{{ project?.name }}</strong>
+              </p>
+              {{
+                project?._url.length > 35
+                  ? (project?._url | slice: 0:35) + ".."
+                  : project?._url
+              }}
+            </div>
+            <div class="card-img">
+              <img [src]="project.image || '/assets/placeholder.png'" />
+            </div>
+            <div
+              class="card-block"
+              style="
+                padding-top: 5px;
+                min-height: 100px;
+                height: 100px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+              "
+            >
+              <p class="card-text" style="margin-bottom: 20px">
+                <clr-tooltip>
+                  <span clrTooltipTrigger>
+                    {{
+                      project?.description.length > 150
+                        ? (project?.description | slice: 0:150) + ".."
+                        : project?.description
+                    }}</span
+                  >
+                  <clr-tooltip-content
+                    clrPosition="tooltip-top-right"
+                    clrSize="lg"
+                    *clrIfOpen
+                  >
+                    {{ project?.description }}
+                  </clr-tooltip-content>
+                </clr-tooltip>
+              </p>
+            </div>
+            <div class="card-footer">
+              <div class="clr-row">
+                <div class="clr-col-lg-5 clr-col-5">
+                  <button
+                    type="button"
+                    class="btn btn-icon btn-link"
+                    aria-label="home"
+                    *ngIf="_user.level === 1"
+                    (click)="editProject($event, project._id)"
+                  >
+                    <clr-icon shape="pencil"></clr-icon>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-icon btn-link"
+                    aria-label="warning"
+                    *ngIf="_user.level === 1"
+                    (click)="openConfirmDialog($event, project)"
+                  >
+                    <clr-icon shape="trash"></clr-icon>
+                  </button>
+                </div>
+                <div
+                  class="clr-col-lg-7 clr-col-7"
+                  style="text-align: right; margin-right: 0; padding-right: 0"
+                >
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    aria-label="view project"
+                  >
+                    view project
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #noData>
+      <div class="not-data" *ngIf="!isLoading">
+        <p>
+          <img src="/assets/no_data.png" alt="" />
+        </p>
+        <p>There is not data <strong>Please</strong> Do the following</p>
+        <ol>
+          <li>
+            <strong>Add new Project </strong>
+          </li>
+          <li>
+            <strong>Ask project owner to assign you to the project </strong>
+          </li>
+        </ol>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<clr-modal [(clrModalOpen)]="confirmDelete">
+  <h3 class="modal-title">Confirmation</h3>
+  <div class="modal-body">
+    <p>
+      Are you sure you want to delete
+      <strong>{{ currentProject?.name }}</strong>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline"
+      (click)="confirmDelete = false"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="deleteProject(currentProject)"
+    >
+      Confirm
+    </button>
+  </div>
+</clr-modal>

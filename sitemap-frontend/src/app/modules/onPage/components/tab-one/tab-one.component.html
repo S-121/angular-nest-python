@@ -1,0 +1,347 @@
+<div
+  class="card clr-align-self-center"
+  style="width: 100%; min-height: 400px; overflow-x: scroll; padding: 0"
+>
+  <div class="card-block" style="padding: 5px; margin: 0">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="limit-height">
+      <clr-datagrid
+        *ngIf="data?.length; else noData"
+        style="padding: 5px; margin: 0"
+        class="table table-compact table-noborder"
+        (clrDgRefresh)="refreshFn($event)"
+        [clrDgLoading]="isLoading"
+        #datagridRef
+      >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Complete</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Priority</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Opportunity to Rank</ng-container
+          ></clr-dg-column
+        >
+
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Url</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Type</ng-container
+          ></clr-dg-column
+        >
+
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >KW Gaps</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Current Title</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Recommended Title</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >New Title Length</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Current Meta</ng-container
+          ></clr-dg-column
+        >
+
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Recommended Meta</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >New Meta Length</ng-container
+          ></clr-dg-column
+        >
+
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Current H1</ng-container
+          ></clr-dg-column
+        >
+
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Recommended H1</ng-container
+          ></clr-dg-column
+        >
+
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Main KW</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Volume</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Ranking</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header"
+          ><ng-container *clrDgHideableColumn="{ hidden: false }"
+            >RD</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >DA</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Avg RD</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Avg DA</ng-container
+          ></clr-dg-column
+        >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Avg Monthly Velocity</ng-container
+          ></clr-dg-column
+        >
+
+        <clr-dg-row *ngFor="let item of data">
+          <clr-dg-cell class="width">
+            <clr-checkbox-container clrInline>
+              <clr-checkbox-wrapper>
+                <input
+                  type="checkbox"
+                  clrCheckbox
+                  [(ngModel)]="item.complete"
+                  value="true"
+                  (change)="updateItem(item)"
+                />
+              </clr-checkbox-wrapper>
+            </clr-checkbox-container>
+          </clr-dg-cell>
+
+          <clr-dg-cell class="width">{{ item["priority"] }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{
+            item["opportuniyToRank"]
+          }}</clr-dg-cell>
+
+          <clr-dg-cell class="width">{{ item["url"] | pagePath }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item["category"] }}</clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            <input
+              clrControl
+              [disabled]="item.complete"
+              placeholder="KW Gaps"
+              [(ngModel)]="item.kwGaps"
+              (keyup)="updateItem(item)"
+            />
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            {{
+              item["contentTitle"].length > 50
+                ? (item["contentTitle"] | slice: 0:50) + ".."
+                : item["contentTitle"]
+            }}</clr-dg-cell
+          >
+          <clr-dg-cell class="width">
+            <input
+              clrControl
+              [disabled]="item.complete"
+              placeholder="Recommended Title"
+              [(ngModel)]="item.recommendedTitle"
+              (keyup)="updateItem(item)"
+            />
+          </clr-dg-cell>
+          <clr-dg-cell class="width">{{
+            item["recommendedTitle"]?.length || 0
+          }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{
+            item["meta"].length > 50
+              ? (item["meta"] | slice: 0:50) + ".."
+              : item["meta"]
+          }}</clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            <input
+              clrControl
+              placeholder="Recommended Meta"
+              [disabled]="item.complete"
+              [(ngModel)]="item.recommendedMeta"
+              (keyup)="updateItem(item)"
+            />
+          </clr-dg-cell>
+          <clr-dg-cell class="width">{{
+            item["recommendedMeta"]?.length || 0
+          }}</clr-dg-cell>
+
+          <clr-dg-cell class="width">{{ item["h1"] }}</clr-dg-cell>
+          <clr-dg-cell class="width">
+            <input
+              clrControl
+              placeholder="Recommended H1"
+              [disabled]="item.complete"
+              [(ngModel)]="item.recommendedH1"
+              (keyup)="updateItem(item)"
+            />
+          </clr-dg-cell>
+
+          <clr-dg-cell class="width">{{ item["mainKw"] }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item["mainKwVolume"] }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item["mainKwPosition"] }}</clr-dg-cell>
+
+          <clr-dg-cell class="width">{{ item["rdLinks"] }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item["da"] }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item["avgRD"] }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item["avgDA"] }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item["avgVelocity"] }}</clr-dg-cell>
+
+          <clr-dg-row-detail *clrIfExpanded [clrDgReplace]="true">
+            <clr-dg-cell class="left">
+              <clr-checkbox-container clrInline>
+                <clr-checkbox-wrapper>
+                  <input
+                    type="checkbox"
+                    clrCheckbox
+                    [(ngModel)]="item.complete"
+                    value="true"
+                    (change)="updateItem(item)"
+                  />
+                </clr-checkbox-wrapper>
+              </clr-checkbox-container>
+            </clr-dg-cell>
+            <clr-dg-cell class="left">{{ item["priority"] }}</clr-dg-cell>
+            <clr-dg-cell class="left">{{
+              item["opportuniyToRank"]
+            }}</clr-dg-cell>
+            <clr-dg-cell class="left">{{ item["url"] | pagePath }}</clr-dg-cell>
+            <clr-dg-cell class="left">{{ item["category"] }}</clr-dg-cell>
+            <clr-dg-cell class="left">
+              <input
+                clrControl
+                [disabled]="item.complete"
+                placeholder="KW Gaps"
+                [(ngModel)]="item.kwGaps"
+                (keyup)="updateItem(item)"
+              />
+            </clr-dg-cell>
+            <clr-dg-cell class="left"> {{ item["contentTitle"] }}</clr-dg-cell>
+            <clr-dg-cell class="left">
+              <input
+                clrControl
+                [disabled]="item.complete"
+                placeholder="Recommended Title"
+                [(ngModel)]="item.recommendedTitle"
+                (keyup)="updateItem(item)"
+              />
+            </clr-dg-cell>
+            <clr-dg-cell class="left">{{
+              item["recommendedTitle"]?.length || 0
+            }}</clr-dg-cell>
+            <clr-dg-cell class="left">{{ item["meta"] }}</clr-dg-cell>
+
+            <clr-dg-cell class="left">
+              <input
+                [disabled]="item.complete"
+                clrControl
+                placeholder="Recommended Meta"
+                [(ngModel)]="item.recommendedMeta"
+                (keyup)="updateItem(item)"
+              />
+            </clr-dg-cell>
+            <clr-dg-cell class="left">{{
+              item["recommendedMeta"]?.length || 0
+            }}</clr-dg-cell>
+
+            <clr-dg-cell class="left">{{ item["h1"] }}</clr-dg-cell>
+            <clr-dg-cell class="left">
+              <input
+                clrControl
+                [disabled]="item.complete"
+                placeholder="Recommended H1"
+                [(ngModel)]="item.recommendedH1"
+                (keyup)="updateItem(item)"
+              />
+            </clr-dg-cell>
+
+            <clr-dg-cell class="left">{{ item["mainKw"] }}</clr-dg-cell>
+            <clr-dg-cell class="left">{{ item["mainKwVolume"] }}</clr-dg-cell>
+            <clr-dg-cell class="left">{{ item["mainKwPosition"] }}</clr-dg-cell>
+
+            <clr-dg-cell class="left">{{ item["rdLinks"] }}</clr-dg-cell>
+            <clr-dg-cell class="left">{{ item["da"] }}</clr-dg-cell>
+            <clr-dg-cell class="left">{{ item["avgRD"] }}</clr-dg-cell>
+            <clr-dg-cell class="left">{{ item["avgDA"] }}</clr-dg-cell>
+            <clr-dg-cell class="left">{{ item["avgVelocity"] }}</clr-dg-cell>
+          </clr-dg-row-detail>
+        </clr-dg-row>
+        <clr-dg-footer>
+          <clr-dg-pagination
+            #pagination
+            [clrDgPageSize]="pageSize"
+            [clrDgTotalItems]="count"
+          >
+            {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+            {{ count }}
+          </clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </div>
+    <ng-template #noData>
+      <div class="not-data" *ngIf="!isLoading">
+        <p>
+          <img src="/assets/no_data.png" alt="" />
+        </p>
+        <p>There is not data <strong>Please</strong> Do the following</p>
+        <ol>
+          <li>
+            <strong>Make sure you built the Master WQA Table </strong>
+          </li>
+          <li>
+            <strong>Make sure you have target pages”. </strong>
+          </li>
+        </ol>
+      </div>
+    </ng-template>
+  </div>
+</div>

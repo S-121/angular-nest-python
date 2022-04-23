@@ -1,0 +1,104 @@
+.width {
+  text-overflow: ellipsis;
+  min-width: 230px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+::ng-deep {
+  .not-data {
+    width: 100%;
+    text-align: center !important;
+    font-weight: bold;
+  }
+  clr-datagrid clr-control-container,
+  clr-datagrid clr-select-container {
+    margin-top: 0 !important;
+  }
+}
+
+.one,
+.one select {
+  background-color: #ecf0f1 !important;
+  color: black !important;
+}
+
+.two,
+.two select {
+  background-color: #c0392b !important;
+  color: white !important;
+}
+.three,
+.three select {
+  background-color: #d35400 !important;
+  color: white !important;
+}
+.four,
+.four select {
+  background-color: #f39c12 !important;
+  color: white !important;
+}
+.five,
+.five select {
+  background-color: #f1c40f !important;
+  color: white !important;
+}
+.six,
+.six select {
+  background-color: #34495e !important;
+  color: white !important;
+}
+.seven,
+.seven select {
+  background-color: #16a085 !important;
+  color: white !important;
+}
+
+.eight,
+.eight select {
+  background-color: #2980b9 !important;
+  color: white !important;
+}
+
+::ng-deep {
+  .clr-control-container {
+    display: block;
+    width: 100%;
+
+    // Override to make select full width
+    .clr-select-wrapper,
+    .clr-select,
+    .clr-textarea-wrapper,
+    .clr-textarea {
+      width: 100%;
+    }
+
+    // Override to make search full width
+    .hf-search-wrapper > .hf-search,
+    .hf-search-select-input,
+    .hf-search-input-text-container {
+      width: 100%;
+    }
+
+    // Override to make input full width
+    .clr-input-wrapper > .clr-input {
+      width: 100%;
+    }
+
+    // Override to make password full width
+    .clr-input-wrapper {
+      width: 100%;
+
+      & > .clr-input-group {
+        max-width: 100%;
+        width: 100%;
+        padding-right: 0.4rem;
+
+        & > input {
+          width: calc(100% - 1rem);
+        }
+      }
+    }
+  }
+}

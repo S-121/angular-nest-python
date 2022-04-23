@@ -1,0 +1,38 @@
+.left-side {
+  padding: 0px;
+  min-height: 84vh;
+  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  // transition: 0.3s;
+  // border-radius: 10px;
+  .card-header {
+    font-size: 15px;
+  }
+
+  .dragItem {
+    background-color: #f0f0f0 !important;
+    color: #0072a3;
+    min-height: 35px !important;
+    line-height: 35px;
+    height: auto !important;
+    text-align: center;
+    padding: 5px;
+    border-radius: 30px;
+    cursor: pointer;
+    // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    width: 100%;
+    margin: auto;
+    margin-top: 5px;
+    margin-left: 0;
+  }
+  .card {
+    border: none;
+    padding: 5px;
+  }
+  .card-block {
+    padding: 10px;
+  }
+}
+.dragItem clr-icon {
+  color: #0072a3 !important;
+}

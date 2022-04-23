@@ -1,0 +1,53 @@
+<div class="clr-row" style="margin-bottom: 5px;">
+  <div class="clr-col-lg-12">
+    <div class="card">
+      <div class="card-header">Technical SEO</div>
+      <div class="card-block">
+        <div *ngIf="isLoading" class="progress top loop">
+          <progress></progress>
+        </div>
+        <div class="clr-row">
+          <div class="clr-col-12">
+            <div class="card clr-align-self-center">
+              <div class="card-block">
+                <h4 class="card-title">Core Web Vitals
+                  <div class="device-selection">
+                    <button class="btn btn-icon btn-sm {{device == 'desktop' ? 'active': '' }}"
+                      (click)="changeDevice('desktop')">
+                      <clr-icon shape="computer"></clr-icon>
+                    </button>
+                    <button class="btn btn-icon btn-sm  {{device == 'mobile' ? 'active': '' }}"
+                      (click)="changeDevice('mobile')">
+                      <clr-icon shape="mobile"></clr-icon>
+                    </button>
+                  </div>
+                </h4>
+                <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+                  <div class="alert-items">
+                    <div class="alert-item static">
+                      <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-triangle"></clr-icon>
+                      </div>
+                      <div class="alert-text">{{ error }}</div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="isLoading" class="vital-spinner">
+                  <clr-spinner></clr-spinner>
+                </div>
+                <div class="clr-w-75">
+                  <div echarts [options]="options" class="teachnical-seo-chart" [loading]="isLoading" theme="macarons"
+                    (chartInit)="onChartInit($event)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clr-row">
+          <div class="clr-col-12">
+            <app-performance></app-performance>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

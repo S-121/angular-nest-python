@@ -1,0 +1,133 @@
+<div class="card" style="padding: 10px; margin: 0; width: 100%; height: 100%">
+  <div
+    class="card-block"
+    style="padding: 0; margin: 0; width: 100%; height: 100%"
+  >
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <h4 class="card-title">Top Performing Pages/Keywords</h4>
+
+    <div
+      class="limit-height"
+      style="padding: 0; margin: 0; width: 100%; height: 100%"
+    >
+      <clr-datagrid
+        *ngIf="response?.length == 2"
+        (clrDgRefresh)="refreshFn($event)"
+        [clrDgLoading]="isLoading"
+      >
+        <clr-dg-column class="table-header width"> Keyword(1)</clr-dg-column>
+        <clr-dg-column class="table-header width"> Keyword(2)</clr-dg-column>
+        <clr-dg-column class="table-header width"> Clicks(1)</clr-dg-column>
+        <clr-dg-column class="table-header width"> Clicks(2)</clr-dg-column>
+
+        <clr-dg-column class="table-header width">
+          Impressions(1)</clr-dg-column
+        >
+        <clr-dg-column class="table-header width">
+          Impressions(2)</clr-dg-column
+        >
+        <clr-dg-column class="table-header width"> CTR(1)</clr-dg-column>
+        <clr-dg-column class="table-header width"> CTR(2)</clr-dg-column>
+
+        <clr-dg-column class="table-header width">
+          Avg. Position(1)</clr-dg-column
+        >
+        <clr-dg-column class="table-header width">
+          Avg. Position(2)</clr-dg-column
+        >
+        <clr-dg-column class="table-header width"> URL(1)</clr-dg-column>
+        <clr-dg-column class="table-header width"> URL(2)</clr-dg-column>
+
+        <clr-dg-row *ngFor="let item of result; let i = index">
+          <clr-dg-cell class="width">{{ item.query1 }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item.query2 }}</clr-dg-cell>
+
+          <clr-dg-cell class="width">{{ item.clicks1 }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item.clicks2 }}</clr-dg-cell>
+
+          <clr-dg-cell class="width">{{ item.impressions1 }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item.impressions2 }}</clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            {{ item.ctr1 | number: "1.2-2" }}</clr-dg-cell
+          >
+          <clr-dg-cell class="width">
+            {{ item.ctr2 | number: "1.2-2" }}</clr-dg-cell
+          >
+          <clr-dg-cell class="width">{{
+            item.position1 | number: "1.2-2"
+          }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{
+            item.position2 | number: "1.2-2"
+          }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item.url1 | pagePath }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item.url2 | pagePath }}</clr-dg-cell>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+          <clr-dg-pagination
+            #pagination
+            [clrDgPageSize]="pageSize"
+            [clrDgTotalItems]="count"
+          >
+            {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+            {{ count }}
+          </clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+
+      <clr-datagrid
+        #simpleTable
+        *ngIf="response?.length == 1"
+        (clrDgRefresh)="refreshFn($event)"
+        [clrDgLoading]="isLoading"
+      >
+        <clr-dg-column class="table-header width"> Keyword</clr-dg-column>
+        <clr-dg-column class="table-header width"> Clicks</clr-dg-column>
+        <clr-dg-column class="table-header width"> Impressions</clr-dg-column>
+        <clr-dg-column class="table-header width"> CTR</clr-dg-column>
+        <clr-dg-column class="table-header width"> Avg. Position</clr-dg-column>
+        <clr-dg-column class="table-header width"> URL</clr-dg-column>
+
+        <clr-dg-row *ngFor="let item of result; let i = index">
+          <clr-dg-cell class="width">{{ item.query }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item.clicks }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item.impressions }}</clr-dg-cell>
+          <clr-dg-cell class="width">
+            {{ item.ctr | number: "1.2-2" }}</clr-dg-cell
+          >
+          <clr-dg-cell class="width">{{
+            item.position | number: "1.2-2"
+          }}</clr-dg-cell>
+          <clr-dg-cell class="width">{{ item.url | pagePath }}</clr-dg-cell>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+          <clr-dg-pagination
+            #pagination
+            [clrDgPageSize]="pageSize"
+            [clrDgTotalItems]="count"
+          >
+            {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+            {{ count }}
+          </clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+.good {
+  font-weight: bolder;
+  color: #27ae60;
+}
+
+.poor {
+  font-weight: bolder;
+  color: #c0392b;
+}
+
+.normal {
+  font-weight: bolder;
+  color: #f1c40f;
+}
+
+.limit-height clr-datagrid {
+  height: 70vh;
+}
+
+.card-title {
+  display: flex;
+  justify-content: space-between;
+}
+.device-selection {
+  button {
+      &.active {
+          background: rgb(239, 239, 239);
+      }
+  }
+}

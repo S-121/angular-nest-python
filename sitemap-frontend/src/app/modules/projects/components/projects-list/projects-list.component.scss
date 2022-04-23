@@ -1,0 +1,33 @@
+.project-list .card {
+  cursor: pointer;
+}
+.btn-danger {
+  color: #fff !important;
+}
+
+.card {
+  .card-img {
+    // Set size for a SVG image
+    img {
+      float: none;
+      width: 190px;
+      height: 170px;
+      object-fit: contain;
+      margin: auto;
+    }
+  }
+}
+
+button.btn-primary {
+  background-color: #0072a3 !important;
+  color: white !important;
+  font-size: 9px !important;
+}
+
+::ng-deep {
+  .not-data {
+    width: 100%;
+    text-align: center !important;
+    font-weight: bold;
+  }
+}

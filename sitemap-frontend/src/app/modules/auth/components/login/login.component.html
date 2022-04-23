@@ -1,0 +1,87 @@
+<div class="login-wrapper">
+  <form class="login" (submit)="login()">
+    <section class="title">
+      <h3 class="welcome">Welcome to</h3>
+      Sitemap
+      <h5 class="hint">
+        Use your Sitemap account to sign in or create one now
+      </h5>
+    </section>
+    <div class="login-group" [formGroup]="loginForm">
+      <clr-input-container>
+        <label class="clr-sr-only">Email</label>
+        <input
+          type="email"
+          name="email"
+          (change)="changeInput('email', $event.target.value)"
+          clrInput
+          placeholder="Email"
+          autocomplete="off"
+          formControlName="email"
+        />
+
+        <clr-control-helper *ngIf="email.invalid"
+          >Enter your email</clr-control-helper
+        >
+        <clr-control-error *clrIfError="'required'"
+          >Email is a required field</clr-control-error
+        >
+        <clr-control-error *clrIfError="'pattern'"
+          >Invalid email</clr-control-error
+        >
+      </clr-input-container>
+      <clr-password-container>
+        <label class="clr-sr-only">Password</label>
+        <input
+          type="password"
+          name="password"
+          clrPassword
+          (change)="changeInput('password', $event.target.value)"
+          autocomplete="off"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <clr-control-helper>Enter your password</clr-control-helper>
+        <clr-control-error *clrIfError="'required'"
+          >Password is a required field</clr-control-error
+        >
+      </clr-password-container>
+      <clr-checkbox-wrapper>
+        <label>Remember me</label>
+        <input
+          type="checkbox"
+          name="rememberMe"
+          clrCheckbox
+          formControlName="rememberMe"
+        />
+      </clr-checkbox-wrapper>
+
+      <div class="error active" *ngIf="fail">Invalid email or password</div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [ngStyle]="{ margin: fail ? '1rem 0 0 0' : '0' }"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
+
+      <a
+        style="display: block; margin-top: 5px; background-color: #4285f4"
+        type="submit"
+        class="btn btn-primary"
+        [href]="googleLoginLink"
+      >
+        <strong style="font-size: 18px">
+          <i class="fa fa-google"></i>
+        </strong>
+        SIGN IN WITH GOOGLE
+      </a>
+      <a [routerLink]="['signup']" class="signup">Sign up for Sitemap</a>
+      <a [routerLink]="['reset-password']" class="signup">Reset Password?</a>
+      <div *ngIf="isloading" class="progress loop" style="font-size: 1px">
+        <progress></progress>
+      </div>
+    </div>
+  </form>
+</div>

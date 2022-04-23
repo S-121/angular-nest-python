@@ -1,0 +1,114 @@
+<div class="login-wrapper">
+  <form class="login" (submit)="register()">
+    <section class="title">
+      <h3 class="welcome">Welcome to</h3>
+      Sitemap
+      <h5 class="hint">
+        Create new account for Sitemap, First grab your google profile
+      </h5>
+    </section>
+    <div class="login-group" [formGroup]="registerForm">
+      <a
+        style="
+          display: block;
+          margin-top: -10px;
+          margin-bottom: 20px;
+          background-color: #4285f4;
+        "
+        type="submit"
+        class="btn btn-primary"
+        [href]="googleLoginLink"
+      >
+        <strong style="font-size: 18px">
+          <i class="fa fa-google"></i>
+        </strong>
+        Register using Google
+      </a>
+      <clr-control-container>
+        <label>User Name</label>
+        <input
+          autocomplete="nope"
+          clrControl
+          placeholder="User Name"
+          formControlName="name"
+        />
+        <clr-control-helper>Enter user name (required)</clr-control-helper>
+        <clr-control-error *clrIfError="'required'"
+          >User name is a required field</clr-control-error
+        >
+      </clr-control-container>
+      <clr-input-container>
+        <label>Email</label>
+        <input
+          type="email"
+          name="email"
+          clrInput
+          placeholder="Email"
+          formControlName="email"
+        />
+
+        <clr-control-error *clrIfError="'emailExist'"
+          >Email is exists</clr-control-error
+        >
+        <clr-control-error *clrIfError="'required'"
+          >Email is a required field</clr-control-error
+        >
+        <clr-control-error *clrIfError="'pattern'"
+          >Invalid email</clr-control-error
+        >
+      </clr-input-container>
+      <clr-password-container>
+        <label>Password</label>
+
+        <input
+          type="password"
+          name="password"
+          clrPassword
+          placeholder="Password"
+          formControlName="password"
+        />
+        <clr-control-helper>Enter your password</clr-control-helper>
+        <clr-control-error *clrIfError="'required'"
+          >Password is a required field</clr-control-error
+        >
+        <clr-control-error *clrIfError="'pattern'"
+          >Password should have at least 8 characters long,1 lowercase letter, 1
+          capital letter, 1 number, 1 special character</clr-control-error
+        >
+      </clr-password-container>
+
+      <clr-password-container>
+        <label>Repeat Password</label>
+        <input
+          clrPassword
+          placeholder="Repeat Password"
+          name="password"
+          formControlName="cPassword"
+        />
+        <clr-control-helper>Repeat Password (required)</clr-control-helper>
+        <clr-control-error *clrIfError="'required'"
+          >Repeat password is a required field</clr-control-error
+        >
+        <clr-control-error *clrIfError="'mustMatch'"
+          >Passwords do not match</clr-control-error
+        >
+      </clr-password-container>
+
+      <div class="error active" *ngIf="fail">
+        Can not proceed with registeration!
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [ngStyle]="{ margin: fail ? '1rem 0 0 0' : '0' }"
+        [disabled]="registerForm.invalid"
+      >
+        Sign Up
+      </button>
+      <a [routerLink]="['/']" class="signup">Sign in</a>
+      <div *ngIf="isloading" class="progress loop" style="font-size: 1px">
+        <progress></progress>
+      </div>
+    </div>
+  </form>
+</div>

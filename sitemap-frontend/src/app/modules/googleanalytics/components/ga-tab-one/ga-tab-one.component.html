@@ -1,0 +1,210 @@
+<div class="clr-row" style="margin-bottom: 5px;">
+  <div class="clr-col-lg-4 clr-col-12">
+    <div class="card" style="text-align: center; height: 139.5px;">
+      <div class="card-header">Organic Sessions</div>
+      <div class="card-block">
+        <div *ngIf="isLoading" class="progress top loop">
+          <progress></progress>
+        </div>
+        <div class="clr-row">
+          <div class="clr-col-5">
+            <div class="card-title">
+              {{ data?.currentMonthSessions | shortNumber }}
+              <i
+                *ngIf="diffOrganicSession?.value"
+                [ngClass]="{
+                  good: diffOrganicSession?.direction,
+                  poor: !diffOrganicSession?.direction
+                }"
+                class="fa fa-arrow-{{
+                  diffOrganicSession?.direction ? 'up' : 'down'
+                }}"
+              ></i>
+              <small>
+                {{
+                  (diffOrganicSession?.value / data?.lastCurrentSessions) * 100
+                    | number: "1.1-2"
+                }}%</small
+              >
+            </div>
+            <div class="card-text">This Month</div>
+          </div>
+          <div class="clr-col-3">
+            <div class="card-title">
+              {{ data?.lastMonthSessions | shortNumber }}
+            </div>
+            <div class="card-text">Last Month</div>
+          </div>
+          <div class="clr-col-4">
+            <div class="card-title">
+              {{ data?.lastYearSessions | shortNumber }}
+            </div>
+            <div class="card-text">12 Months</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="text-align: center; height: 139.5px;">
+      <div class="card-header">Organic Page Views</div>
+      <div class="card-block">
+        <div *ngIf="isLoading" class="progress top loop">
+          <progress></progress>
+        </div>
+        <div class="clr-row">
+          <div class="clr-col-5">
+            <div class="card-title">
+              {{ data?.currentMonthPageviews | shortNumber }}
+              <i
+                *ngIf="diffOrganicView?.value"
+                [ngClass]="{
+                  good: diffOrganicView?.direction,
+                  poor: !diffOrganicView?.direction
+                }"
+                class="fa fa-arrow-{{
+                  diffOrganicView?.direction ? 'up' : 'down'
+                }}"
+              ></i>
+              <small>
+                {{
+                  (diffOrganicView?.value / data?.lastCurrentPageviews) * 100
+                    | number: "1.1-2"
+                }}%</small
+              >
+            </div>
+            <div class="card-text">This Month</div>
+          </div>
+          <div class="clr-col-3">
+            <div class="card-title">
+              {{ data?.lastMonthPageviews | shortNumber }}
+            </div>
+            <div class="card-text">Last Month</div>
+          </div>
+          <div class="clr-col-4">
+            <div class="card-title">
+              {{ data?.lastYearPageViews | shortNumber }}
+            </div>
+            <div class="card-text">12 Months</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="text-align: center; height: 139.5px;">
+      <div class="card-header">Organic Bounce Rate</div>
+      <div class="card-block">
+        <div *ngIf="isLoading" class="progress top loop">
+          <progress></progress>
+        </div>
+        <div class="clr-row">
+          <div class="clr-col-5">
+            <div class="card-title">
+              {{ data?.currentMonthBounceRate | number: "1.1-1" }}%
+              <i
+                *ngIf="diffBounce?.value"
+                [ngClass]="{
+                  warning: diffBounce?.direction,
+                  good: !diffBounce?.direction
+                }"
+                class="fa fa-arrow-{{ diffBounce?.direction ? 'up' : 'down' }}"
+              ></i>
+              <small> {{ diffBounce?.value | number: "1.1-2" }}%</small>
+            </div>
+            <div class="card-text">This Month</div>
+          </div>
+          <div class="clr-col-3">
+            <div class="card-title">
+              {{ data?.lastMonthBounceRate | number: "1.1-1" }}%
+            </div>
+            <div class="card-text">Last Month</div>
+          </div>
+          <div class="clr-col-4">
+            <div class="card-title">
+              {{ data?.lastYearBoounceRate | number: "1.1-1" }}%
+            </div>
+            <div class="card-text">12 Months</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="text-align: center; height: 139.5px;">
+      <div class="card-header">Organic Page/Session</div>
+      <div class="card-block">
+        <div *ngIf="isLoading" class="progress top loop">
+          <progress></progress>
+        </div>
+        <div class="clr-row">
+          <div class="clr-col-5">
+            <div class="card-title">
+              {{ data?.currentMonthPageviewsPerSession | number: "1.1-2" }}
+              <i
+                *ngIf="diffOrganicPage?.value"
+                [ngClass]="{
+                  good: diffOrganicPage?.direction,
+                  poor: !diffOrganicPage?.direction
+                }"
+                class="fa fa-arrow-{{
+                  diffOrganicPage?.direction ? 'up' : 'down'
+                }}"
+              ></i>
+              <small> {{ diffOrganicPage?.value | number: "1.1-2" }}%</small>
+            </div>
+            <div class="card-text">This Month</div>
+          </div>
+          <div class="clr-col-3">
+            <div class="card-title">
+              {{ data?.lastMonthPageviewsPerSession | number: "1.1-2" }}
+            </div>
+            <div class="card-text">Last Month</div>
+          </div>
+          <div class="clr-col-4">
+            <div class="card-title">
+              {{ data?.lastYearPageviewsPerSession | number: "1.1-2" }}
+            </div>
+            <div class="card-text">12 Months</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="text-align: center; height: 139.5px;">
+      <div class="card-header">Organic Time on Page</div>
+      <div class="card-block">
+        <div *ngIf="isLoading" class="progress top loop">
+          <progress></progress>
+        </div>
+        <div class="clr-row">
+          <div class="clr-col-5">
+            <div class="card-title">
+              {{ data?.currentMonthTimeOnPage | date: organicTimeFormat }}
+
+              <i
+                *ngIf="diffTime?.value"
+                [ngClass]="{
+                  good: diffTime?.direction,
+                  poor: !diffTime?.direction
+                }"
+                class="fa fa-arrow-{{ diffTime?.direction ? 'up' : 'down' }}"
+              ></i>
+              <small> {{ diffTime?.value | number: "1.1-2" }}%</small>
+            </div>
+            <div class="card-text">This Month</div>
+          </div>
+          <div class="clr-col-3">
+            <div class="card-title">
+              {{ data?.lastMonthTimeOnPage | date: organicTimeFormat }}
+            </div>
+            <div class="card-text">Last Month</div>
+          </div>
+          <div class="clr-col-4">
+            <div class="card-title">
+              {{ data?.lastYearTimeOnPage | date: organicTimeFormat }}
+            </div>
+            <div class="card-text">12 Months</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clr-col-lg-8 clr-col-12">
+    <app-ga-user></app-ga-user>
+    <app-landing-pages></app-landing-pages>
+  </div>
+</div>

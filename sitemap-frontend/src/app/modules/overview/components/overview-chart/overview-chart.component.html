@@ -1,0 +1,141 @@
+<div
+  class="card"
+  style="padding: 10px; margin: 0; width: 100%; height: 100%; min-height: 42vh"
+>
+  <div
+    class="card-block"
+    style="padding: 0; margin: 0; width: 100%; height: 100%"
+  >
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+
+    <h4 class="card-title">
+      <div style="text-align: center" style="margin: 0; padding: 0">
+        <div class="clr-row" *ngFor="let row of rows">
+          <div class="clr-col">
+            <div class="card-title" style="margin: 0; padding: 0">
+              <strong>{{ row?.info?.totalClick | shortNumber }}</strong>
+            </div>
+            <div class="card-text">Total Clicks</div>
+          </div>
+          <div class="clr-col">
+            <div class="card-title" style="margin: 0; padding: 0">
+              <strong>{{ row?.info?.totalImpressions | shortNumber }}</strong>
+            </div>
+            <div class="card-text">Total Impressions</div>
+          </div>
+          <div class="clr-col">
+            <div class="card-title" style="margin: 0; padding: 0">
+              <strong>{{ row?.info?.avgCtr | number }}</strong>
+            </div>
+            <div class="card-text">Average CTR</div>
+          </div>
+          <div class="clr-col">
+            <div class="card-title" style="margin: 0; padding: 0">
+              <strong>{{ row?.info?.avgPositions | number: "1.1-1" }}</strong>
+            </div>
+            <div class="card-text">Average Position</div>
+          </div>
+          <!-- <div class="clr-col" *ngIf="currentQuery">
+            <div>
+              <button class="btn btn-sm btn-danger">
+                {{ currentQuery }}
+              </button>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </h4>
+    <div
+      echarts
+      style="width: 100%; height: 85%"
+      [options]="options"
+      [loading]="isLoading"
+      class="overview-chart"
+      (chartInit)="onChartInit($event)"
+    ></div>
+  </div>
+</div>
+
+<!-- <div class="card">
+  <div class="card-block" style="width: 100%">
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+
+    <h4 class="card-title">
+      <div style="text-align: center" style="margin: 0; padding: 0">
+        <div class="clr-row">
+          <div class="clr-col">
+            <div class="card-title" style="margin: 0; padding: 0">
+              <strong>{{ info?.totalClick | shortNumber }}</strong>
+            </div>
+            <div class="card-text">Total Clicks</div>
+          </div>
+          <div class="clr-col">
+            <div class="card-title" style="margin: 0; padding: 0">
+              <strong>{{ info?.totalImpressions | shortNumber }}</strong>
+            </div>
+            <div class="card-text">Total Impressions</div>
+          </div>
+          <div class="clr-col">
+            <div class="card-title" style="margin: 0; padding: 0">
+              <strong>{{ info?.avgCtr | number }}</strong>
+            </div>
+            <div class="card-text">Average CTR</div>
+          </div>
+          <div class="clr-col">
+            <div class="card-title" style="margin: 0; padding: 0">
+              <strong>{{ info?.avgPositions | number: "1.1-1" }}</strong>
+            </div>
+            <div class="card-text">Average Position</div>
+          </div>
+          <div class="clr-col" *ngIf="currentQuery">
+            <div>
+              <button class="btn btn-sm btn-danger">
+                {{ currentQuery }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </h4>
+    <div
+      echarts
+      style="width: 100%; max-height: 100%; height: 325px"
+      [options]="options"
+      [loading]="isLoading"
+      theme="macarons"
+      [merge]="merge"
+      class="overview-chart"
+      (chartInit)="onChartInit($event)"
+    ></div>
+  </div>
+</div> -->

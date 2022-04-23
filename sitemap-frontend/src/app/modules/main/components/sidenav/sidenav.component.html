@@ -1,0 +1,204 @@
+<clr-vertical-nav [clrVerticalNavCollapsible]="true" [clr-nav-level]="1" [clrVerticalNavCollapsed]="true">
+  <!-- <clr-vertical-nav-group routerLinkActive="active">
+    <clr-icon shape="cog" clrVerticalNavIcon></clr-icon>
+    SETTINGS
+    <clr-vertical-nav-group-children *clrIfExpanded="true"> -->
+      <!-- <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-sm tooltip-right ">
+        I'm xs<span class="tooltip-content">I'm xs</span>
+      </a> -->
+<!-- <div class="sidenav-items" style="position: static;">
+
+  <a
+    clrVerticalNavLink
+    class="nav-link"
+    [routerLink]="['/main/projects']"
+    [routerLinkActive]="['active']"
+    title="Projects"
+  >
+    <clr-icon clrVerticalNavIcon shape="file-settings"></clr-icon>
+    Projects
+  </a>
+  <span>Projects</span>
+</div>
+
+<div class="sidenav-items" style="position: static;">
+
+  <a
+    clrVerticalNavLink
+    [routerLink]="['/main/users']"
+    [routerLinkActive]="['active']"
+    *ngIf="user?.level === 1"
+    class="nav-link"
+    title="Users"
+  >
+    <clr-icon clrVerticalNavIcon shape="users"></clr-icon>
+    Users
+  </a>
+  <span>Users</span>
+  </div> -->
+  <!-- </clr-vertical-nav-group-children>
+  </clr-vertical-nav-group> -->
+  <!-- <clr-vertical-nav-group routerLinkActive="active">
+    <clr-icon shape="cloud-chart" clrVerticalNavIcon></clr-icon>
+    MANAGEMENT
+    <clr-vertical-nav-group-children *clrIfExpanded="true"> -->
+  <button
+    [routerLink]="['/main/overview']"
+    clrVerticalNavLink
+    [routerLinkActive]="['active']"
+    [disabled]="!project?.gsc"
+    class="nav-link"
+  >
+    <clr-icon clrVerticalNavIcon shape="pin"></clr-icon> 
+    Overview
+  </button>
+
+
+  <!-- <button
+    [routerLink]="['/main/dashboard']"
+    clrVerticalNavLink
+    [routerLinkActive]="['active']"
+    [disabled]="!project?.gsc"
+    class="nav-link"
+  >
+    <clr-icon clrVerticalNavIcon shape="dashboard"></clr-icon> Dashboard
+  </button> -->
+  <button
+    [routerLink]="['/main/googleanalytics']"
+    clrVerticalNavLink
+    [disabled]="!project?.ga"
+    [routerLinkActive]="['active']"
+    class="nav-link"
+  >
+    <clr-icon clrVerticalNavIcon shape="line-chart"></clr-icon> Website Analytics
+  </button>
+  
+  <!-- <button
+    [routerLink]="['/main/wqa']"
+    clrVerticalNavLink
+    [routerLinkActive]="['active']"
+    [disabled]="!project"
+    class="nav-link"
+  >
+    <clr-icon clrVerticalNavIcon shape="factory"></clr-icon> Master WQA
+  </button> -->
+
+  <button
+    [routerLink]="['/main/keyword-research']"
+    clrVerticalNavLink
+    [routerLinkActive]="['active']"
+    [disabled]="!project"
+    class="nav-link"
+  >
+    <clr-icon clrVerticalNavIcon shape="search"></clr-icon> Keyword Planner
+  </button>
+
+  <button
+    [routerLink]="['/main/keyword-tracking']"
+    clrVerticalNavLink
+    [routerLinkActive]="['active']"
+    [disabled]="!project"
+    class="nav-link"
+  >
+    <clr-icon clrVerticalNavIcon shape="terminal"></clr-icon> Keyword Tracking
+  </button>
+
+  <!-- <button
+    [routerLink]="['/main/onPage']"
+    clrVerticalNavLink
+    [routerLinkActive]="['active']"
+    [disabled]="!project"
+    class="nav-link"
+  >
+    <clr-icon clrVerticalNavIcon shape="sync"></clr-icon> On Page Updates
+  </button> -->
+  <!-- <button
+    [routerLink]="['/main/content-workbook']"
+    clrVerticalNavLink
+    [routerLinkActive]="['active']"
+    [disabled]="!project"
+    class="nav-link"
+  >
+    <clr-icon clrVerticalNavIcon shape="book"></clr-icon> 
+    Content Workbook
+  </button> -->
+  <button
+  [routerLink]="['/main/technical-seo']"
+  clrVerticalNavLink
+  [routerLinkActive]="['active']"
+  [disabled]="!project"
+  class="nav-link"
+>
+  <clr-icon clrVerticalNavIcon shape="bolt"></clr-icon> 
+  Technical SEO
+</button>
+  <!-- <clr-vertical-nav-group routerLinkActive="active">
+    <clr-icon shape="list" clrVerticalNavIcon></clr-icon>
+    PROJECTS
+    <clr-vertical-nav-group-children *clrIfExpanded="true">
+      <a
+        clrVerticalNavLink
+        style="cursor: pointer"
+        *ngFor="let p of projects"
+        (click)="selectProject(p.viewId, p.name, p._id, p)"
+      >
+        <clr-icon
+          shape="folder"
+          *ngIf="project?._id !== p._id; else current"
+        ></clr-icon>
+        <ng-template #current>
+          <clr-icon shape="folder-open"></clr-icon>
+        </ng-template>
+        {{ p.name }}
+      </a>
+    </clr-vertical-nav-group-children>
+  </clr-vertical-nav-group> -->
+
+  <a
+    clrVerticalNavLink
+    class="nav-link"
+    (click)="logout()"
+    [routerLink]="['/']"
+  >
+    <clr-icon shape="sign-out" clrVerticalNavIcon></clr-icon>
+    Logout
+    </a
+  >
+
+  <clr-vertical-nav-group routerLinkActive="false">
+    <clr-icon shape="cog" clrVerticalNavIcon class="sidenav-items"></clr-icon>
+    Settings
+    <clr-vertical-nav-group-children *clrIfExpanded="false">
+      <div>
+
+        <a
+          clrVerticalNavLink
+          class="nav-link"
+          [routerLink]="['/main/projects']"
+          [routerLinkActive]="['active']"
+        >
+          <clr-icon clrVerticalNavIcon shape="file-settings"></clr-icon>
+          <!-- <span class="tooltip-content">I'm xs</span> -->
+          Projects
+        </a>
+        <!-- <span>Projects</span> -->
+      </div>
+      
+      <div>
+      
+        <a
+          clrVerticalNavLink
+          [routerLink]="['/main/users']"
+          [routerLinkActive]="['active']"
+          *ngIf="user?.level === 1"
+          class="nav-link"
+        >
+          <clr-icon clrVerticalNavIcon shape="users"></clr-icon>
+          Users
+        </a>
+        <!-- <span>Users</span> -->
+        </div>
+      </clr-vertical-nav-group-children>
+      </clr-vertical-nav-group>
+
+</clr-vertical-nav>

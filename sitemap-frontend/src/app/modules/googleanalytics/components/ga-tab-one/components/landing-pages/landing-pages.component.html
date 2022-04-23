@@ -1,0 +1,108 @@
+<div class="card clr-align-self-center" style="width: 100%; min-height: 300px">
+  <div class="card-block">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <h4 class="card-title">Landing Pages</h4>
+    <div class="limit-height">
+      <clr-datagrid
+        (clrDgRefresh)="refreshFn($event)"
+        [clrDgLoading]="isLoading"
+      >
+        <clr-dg-column class="table-header" [clrDgField]="'pages'">
+          Landing Pages</clr-dg-column
+        >
+        <clr-dg-column class="table-header" [clrDgField]="'sessions'">
+          Sessions</clr-dg-column
+        >
+        <clr-dg-column class="table-header" [clrDgField]="'sessions_inc'">
+          %Δ</clr-dg-column
+        >
+        <clr-dg-column class="table-header" [clrDgField]="'pr'">
+          BR</clr-dg-column
+        >
+        <clr-dg-column class="table-header" [clrDgField]="'pr_inc'">
+          %Δ</clr-dg-column
+        >
+        <clr-dg-column class="table-header" [clrDgField]="'atp'">
+          ATP</clr-dg-column
+        >
+        <clr-dg-column class="table-header" [clrDgField]="'atp_inc'">
+          %Δ</clr-dg-column
+        >
+
+        <clr-dg-row *ngFor="let item of result">
+          <clr-dg-cell
+            >{{
+              item.pages.length > 50
+                ? (item.pages | slice: 0:50) + ".."
+                : item.pages
+            }}
+          </clr-dg-cell>
+          <clr-dg-cell>{{ item.sessions }}</clr-dg-cell>
+          <clr-dg-cell
+            >{{
+              isNan(item.sessions_inc)
+                ? "-"
+                : (item.sessions_inc | number: "1.2-2")
+            }}
+
+            <i
+              *ngIf="!isNan(item.sessions_inc)"
+              class="fa fa-arrow-{{
+                item?.sessions_arrow != 'false' ? 'up' : 'down'
+              }}"
+            ></i>
+          </clr-dg-cell>
+          <clr-dg-cell>{{
+            isNan(item.pr) ? "-" : (item.pr | number: "1.2-2")
+          }}</clr-dg-cell>
+          <clr-dg-cell
+            >{{ isNan(item.pr_inc) ? "-" : (item.pr_inc | number: "1.2-2") }}
+            <i
+              *ngIf="!isNan(item.pr_inc)"
+              class="fa fa-arrow-{{
+                item?.pr_arrow != 'false' ? 'up' : 'down'
+              }} {{item?.pr_arrow != 'false' ? (item.pr_inc > 5) ? 'poor': 'normal' : 'good'}}"
+            ></i>
+          </clr-dg-cell>
+          <clr-dg-cell>{{
+            isNan(item.atp) ? "-" : (item.atp | number: "1.2-2")
+          }}</clr-dg-cell>
+          <clr-dg-cell
+            >{{ isNan(item.atp_inc) ? "-" : (item.atp_inc | number: "1.2-2") }}
+            <i
+              *ngIf="!isNan(item.atp_inc)"
+              class="fa fa-arrow-{{
+                item?.atp_arrow != 'false' ? 'up' : 'down'
+              }}"
+            ></i>
+          </clr-dg-cell>
+        </clr-dg-row>
+        <clr-dg-footer>
+          <clr-dg-pagination
+            #pagination
+            [clrDgPageSize]="pageSize"
+            [clrDgTotalItems]="count"
+          >
+            {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+            {{ count }}
+          </clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </div>
+  </div>
+</div>

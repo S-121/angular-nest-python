@@ -1,0 +1,461 @@
+<div
+  class="card clr-align-self-center"
+  style="width: 100%; min-height: 300px; overflow-x: scroll; padding: 0"
+>
+  <div class="card-block" style="padding: 5px; margin: 0">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-success" *ngIf="success" role="alert">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+          </div>
+          <span class="alert-text"> Success! Data is saved. </span>
+        </div>
+      </div>
+      <button
+        type="button"
+        (click)="success = false"
+        class="close"
+        aria-label="Close"
+      >
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
+    <div class="limit-height">
+      <clr-datagrid
+        [(clrDgSelected)]="selected"
+        style="margin: 0; padding: 0; min-height: 300px"
+        class="table table-compact table-noborder queue"
+        (clrDgRefresh)="refreshFn($event)"
+        [clrDgLoading]="isLoading"
+        #datagridRef
+      >
+        <clr-dg-action-bar style="margin: 0; padding: 0">
+          <div class="btn-group cwb-actions">
+            <button type="button" class="btn" (click)="onAdd()">
+              <clr-icon shape="plus"></clr-icon> ADD
+            </button>
+
+            <button
+              type="button"
+              class="btn"
+              *ngIf="selected.length > 0"
+              (click)="onDelete()"
+            >
+              <clr-icon shape="close"></clr-icon> DELETE
+            </button>
+
+            <button
+              type="button"
+              *ngIf="__contentWorkbookService.dirty"
+              class="btn btn-primary"
+              (click)="save()"
+            >
+              <clr-icon shape="check" style="color: white"></clr-icon>
+              <span style="color: white">SAVE</span>
+            </button>
+          </div>
+        </clr-dg-action-bar>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Priority</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header" [clrDgSortBy]="'status'">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Status</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column
+          class="width table-header"
+          [clrDgSortBy]="'articleTitle'"
+        >
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Article Title</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header" [clrDgSortBy]="'mainKw'">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Main KW</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header" [clrDgSortBy]="'vol'">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Keyword Vol/mo</ng-container
+          >
+        </clr-dg-column>
+
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Content Type</ng-container
+          >
+        </clr-dg-column>
+
+        <!-- <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Content Tactic</ng-container
+          >
+        </clr-dg-column> -->
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Pillar</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Author</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Cluster</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column
+          class="width2 table-header"
+          [clrDgSortBy]="'supportingKeywords'"
+        >
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Supporting Keywords</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header" [clrDgSortBy]="'notes'">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Notes</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header" [clrDgSortBy]="'wordCount'">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >SEO Brief</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column
+          class="width table-header"
+          [clrDgSortBy]="'clearscopeLink'"
+        >
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Clearscope Link</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column
+          class="width table-header"
+          [clrDgSortBy]="'finalDraftLink'"
+        >
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Final Draft Link</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header" [clrDgSortBy]="'url'">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >URL</ng-container
+          >
+        </clr-dg-column>
+
+        <clr-dg-row *clrDgItems="let item of filter(data)" [clrDgItem]="item">
+          <clr-dg-cell class="{{ priorityClasses[item.priority] }}">
+            <clr-select-container>
+              <select
+                class="priority"
+                clrSelect
+                name="priority"
+                (change)="updateItem(item, true)"
+                [value]="item.priority"
+                [(ngModel)]="item.priority"
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </clr-select-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-select-container>
+              <select
+                clrSelect
+                name="status"
+                (change)="updateItem(item, true)"
+                [(ngModel)]="item.status"
+              >
+                <option
+                  *ngFor="let status of dropDownLists?.status"
+                  [value]="status.id"
+                >
+                  {{ status?.value }}
+                </option>
+              </select>
+            </clr-select-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-control-container>
+              <input
+                clrControl
+                placeholder="Article Title"
+                [(ngModel)]="item.articleTitle"
+                (keyup)="updateItem(item)"
+              />
+            </clr-control-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-control-container>
+              <input
+                clrControl
+                placeholder="Main KW"
+                [(ngModel)]="item.mainKw"
+                (keyup)="updateItem(item)"
+              />
+            </clr-control-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-control-container>
+              <input
+                clrControl
+                placeholder="Volume"
+                [(ngModel)]="item.vol"
+                (keyup)="updateItem(item)"
+              />
+            </clr-control-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-select-container>
+              <select
+                clrSelect
+                name="contentType"
+                (change)="updateItem(item, true)"
+                [value]="item.contentType"
+                [(ngModel)]="item.contentType"
+              >
+                <option
+                  *ngFor="let type of dropDownLists?.contentType"
+                  [value]="type.id"
+                >
+                  {{ type?.value }}
+                </option>
+              </select>
+            </clr-select-container>
+          </clr-dg-cell>
+          <!-- <clr-dg-cell class="width">
+            <clr-select-container>
+              <select
+                clrSelect
+                name="contentTactic"
+                (change)="updateItem(item, true)"
+                [value]="item.contentTactic"
+                [(ngModel)]="item.contentTactic"
+              >
+                <option
+                  *ngFor="let type of dropDownLists?.contentTactic"
+                  [value]="type.id"
+                >
+                  {{ type?.value }}
+                </option>
+              </select>
+            </clr-select-container>
+          </clr-dg-cell> -->
+          <clr-dg-cell class="width">
+            <clr-select-container>
+              <select
+                clrSelect
+                name="pillar"
+                (change)="updateItem(item, true)"
+                [value]="item.pillar"
+                [(ngModel)]="item.pillar"
+              >
+                <option
+                  *ngFor="let _pillar of dropDownLists?.pillar"
+                  [value]="_pillar.id"
+                >
+                  {{ _pillar?.value }}
+                </option>
+              </select>
+            </clr-select-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-select-container>
+              <select
+                clrSelect
+                name="author"
+                (change)="updateItem(item, true)"
+                [value]="item.author"
+                [(ngModel)]="item.author"
+              >
+                <option
+                  *ngFor="let _author of dropDownLists?.author"
+                  [value]="_author.id"
+                >
+                  {{ _author?.value }}
+                </option>
+              </select>
+            </clr-select-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-select-container>
+              <select
+                clrSelect
+                name="cluster"
+                (change)="updateItem(item, true)"
+                [value]="item.cluster"
+                [(ngModel)]="item.cluster"
+              >
+                <option
+                  *ngFor="let _cluster of dropDownLists?.cluster"
+                  [value]="_cluster.id"
+                >
+                  {{ _cluster?.value }}
+                </option>
+              </select>
+            </clr-select-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width2">
+            <clr-control-container>
+              <input
+                clrControl
+                placeholder="Supporting Keywords"
+                [(ngModel)]="item.supportingKeywords"
+                (keyup)="updateItem(item)"
+              />
+            </clr-control-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-textarea-container style="margin-top: -12px">
+              <textarea
+                rows="1"
+                clrTextarea
+                placeholder="Notes"
+                [(ngModel)]="item.notes"
+                (keyup)="updateItem(item)"
+              ></textarea>
+            </clr-textarea-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-control-container>
+              <input
+                clrControl
+                placeholder="SEO Brief"
+                [(ngModel)]="item.wordCount"
+                (keyup)="updateItem(item)"
+              />
+            </clr-control-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-control-container>
+              <input
+                clrControl
+                placeholder="Clearscope Link"
+                [(ngModel)]="item.clearscopeLink"
+                (keyup)="updateItem(item)"
+              />
+            </clr-control-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-control-container>
+              <input
+                clrControl
+                placeholder="Final Draft Link"
+                [(ngModel)]="item.finalDraftLink"
+                (keyup)="updateItem(item)"
+              />
+            </clr-control-container>
+          </clr-dg-cell>
+          <clr-dg-cell class="width">
+            <clr-control-container>
+              <input
+                clrControl
+                placeholder="URL"
+                [(ngModel)]="item.url"
+                (keyup)="updateItem(item)"
+              />
+            </clr-control-container>
+          </clr-dg-cell>
+
+          <clr-dg-row-detail *clrIfExpanded [clrDgReplace]="true">
+            <clr-dg-cell class="width">
+              {{ item.priority }}
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              {{ getValueByIdFromArray(dropDownLists.status, item.status) }}
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              {{ item.articleTitle }}
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              {{ item.mainKw }}
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              {{ item.vol }}
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              {{
+                getValueByIdFromArray(
+                  dropDownLists.contentType,
+                  item.contentType
+                )
+              }}
+            </clr-dg-cell>
+            <!-- <clr-dg-cell class="width">
+              {{
+                getValueByIdFromArray(
+                  dropDownLists.contentTactic,
+                  item.contentTactic
+                )
+              }}
+            </clr-dg-cell> -->
+            <clr-dg-cell class="width">
+              {{ getValueByIdFromArray(dropDownLists.pillar, item.pillar) }}
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              {{
+                getValueByIdFromArray(dropDownLists.author, item.author)
+              }}</clr-dg-cell
+            >
+            <clr-dg-cell class="width">
+              {{
+                getValueByIdFromArray(dropDownLists.cluster, item.cluster)
+              }}</clr-dg-cell
+            >
+            <clr-dg-cell class="width">
+              {{ item.supportingKeywords }}
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              {{ item.notes }}
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              {{ item.wordCount }}
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              <a [href]="item.clearscopeLink" target="_blank">{{
+                item.clearscopeLink
+              }}</a>
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              <a [href]="item.finalDraftLink" target="_blank">{{
+                item.finalDraftLink
+              }}</a>
+            </clr-dg-cell>
+            <clr-dg-cell class="width">
+              <a [href]="item.url" target="_blank">{{ item.url }}</a>
+            </clr-dg-cell>
+          </clr-dg-row-detail>
+        </clr-dg-row>
+        <clr-dg-footer> Rows {{ data?.length }} </clr-dg-footer>
+      </clr-datagrid>
+    </div>
+  </div>
+</div>

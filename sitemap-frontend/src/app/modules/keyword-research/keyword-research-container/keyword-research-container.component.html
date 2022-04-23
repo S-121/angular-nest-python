@@ -1,0 +1,47 @@
+<div class="card" style="height: 100%; margin: 0">
+  <div class="card-header">
+    <clr-icon shape="search"></clr-icon> Keyword Planner
+  </div>
+  <div class="card-block" style="height: 95%; overflow-y: scroll">
+    <clr-tabs>
+      <clr-tab>
+        <button clrTabLink>
+          <clr-icon shape="tools"></clr-icon>
+          Keywords
+        </button>
+        <clr-tab-content *clrIfActive="true">
+          <app-tab-one></app-tab-one>
+        </clr-tab-content>
+      </clr-tab>
+      <clr-tab>
+        <button clrTabLink>
+          <clr-icon shape="help-info"></clr-icon>
+          Subcategories Data
+        </button>
+        <clr-tab-content *clrIfActive>
+          <!-- upload csv file -->
+          <div style="margin-top: 1.5%;">
+            <form (submit)="fileUploader()">
+              <input type="file" name="file" (change)="handleFile($event)" multiple="multiple"/>
+              <input *ngIf="isloading == false;" class="btn btn-primary" type="submit" value="CSV file upload" />
+              <button *ngIf="isloading == true;" class="btn btn-primary" [disabled]="true">uploading... <clr-spinner clrInline>Downloading</clr-spinner></button>
+              <!-- <div *ngIf="isloading == true;" class="progress top loop">
+                <progress></progress>
+              </div> -->
+            </form>
+          </div>
+          <app-tab-two></app-tab-two>
+        </clr-tab-content>
+      </clr-tab>
+      <clr-tab>
+        <button clrTabLink>
+          <clr-icon shape="target"></clr-icon>
+          Target Pages
+        </button>
+        <clr-tab-content *clrIfActive>
+          <app-tab-three></app-tab-three>
+        </clr-tab-content>
+      </clr-tab>
+    </clr-tabs>
+  </div>
+</div>

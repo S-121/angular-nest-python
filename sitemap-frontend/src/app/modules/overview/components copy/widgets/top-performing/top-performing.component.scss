@@ -1,0 +1,28 @@
+table {
+  width: 100%;
+}
+clr-dg-row {
+  cursor: pointer !important;
+}
+
+.active {
+  font-weight: bolder;
+}
+::ng-deep {
+  button.btn-danger,
+  button.btn-danger clr-icon {
+    color: white !important;
+  }
+}
+
+.limit-height clr-datagrid {
+  height: 87%;
+}
+
+.width {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 190px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

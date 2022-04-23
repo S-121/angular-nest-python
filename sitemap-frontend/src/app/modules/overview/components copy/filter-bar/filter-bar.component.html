@@ -1,0 +1,57 @@
+<div class="clr-row filter-bar">
+  <div
+    class="clr-col-12 clr-col-lg-6"
+    id="filterBar{{ i + 1 }}"
+    *ngFor="let key of keys(__dashboardService.filters); let i = index"
+    dragula="filters"
+    [(dragulaModel)]="__dashboardService.filters[key]"
+  >
+    <div
+      *ngFor="let filter of __dashboardService.filters[key]"
+      class="filterItem"
+    >
+      <clr-dropdown>
+        <button class="btn btn-sm filterBtn" clrDropdownTrigger>
+          {{ filter.title }} <strong>{{ filter.value }}</strong>
+        </button>
+        <clr-dropdown-menu clrPosition="down-right" *clrIfOpen>
+          <div class="clr-row">
+            <div class="clr-col-12">
+              <div class="card">
+                <div class="card-block">
+                  <div class="progress top">
+                    <progress value="100" max="100"></progress>
+                  </div>
+                  <h4 class="card-title">
+                    {{ filter.title }}
+                  </h4>
+                  <p class="card-text">
+                    <ng-template filterItem [filter]="filter"></ng-template>
+                  </p>
+                </div>
+                <div class="card-footer">
+                  <a
+                    href="javascript:void(0)"
+                    clrDropdownTrigger
+                    (click)="apply()"
+                    class="card-link"
+                    >Apply</a
+                  >
+                  <a
+                    href="javascript:void(0)"
+                    (click)="
+                      removeFilter(__dashboardService.filters[key], filter)
+                    "
+                    class="card-link"
+                    clrDropdownTrigger
+                    >Remove</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </clr-dropdown-menu>
+      </clr-dropdown>
+    </div>
+  </div>
+</div>

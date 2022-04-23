@@ -1,0 +1,136 @@
+<div
+  class="card clr-align-self-center"
+  style="width: 100%; min-height: 400px; overflow-x: scroll; padding: 0"
+>
+  <div class="card-block" style="padding: 5px; margin: 0">
+    <div *ngIf="isLoadings" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="limit-height">
+      <clr-datagrid
+        *ngIf="data != null; else noData"
+        style="padding: 5px; margin: 0; min-height: 300px"
+        class="table table-compact table-noborder"
+        [clrDgLoading]="isLoadings"
+        #datagridRef
+      >
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >CPC</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Keyword</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Matched Category</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Matched Category Page Title</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Parent Category</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Search Volume</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Similarity</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Matching Products Exact</ng-container
+          >
+        </clr-dg-column>
+        <clr-dg-column class="width table-header">
+          <ng-container *clrDgHideableColumn="{ hidden: false }"
+            >Matching Products Fuzzy</ng-container
+          >
+        </clr-dg-column>
+        
+        <clr-dg-row *ngFor="let item of dataKeys">
+          <clr-dg-cell class="width">
+            {{ data.cpc[item] }}
+          </clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            {{ data.keyword[item] }}
+          </clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            {{ data.matched_category[item] }}
+          </clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            {{ data.matched_category_page_title[item] }}
+          </clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            {{ data.parent_category[item] }}
+          </clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            {{ data.search_volume[item] }}
+          </clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            {{ data.similarity[item] }}
+          </clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            {{ data.matching_products_exact[item] }}
+          </clr-dg-cell>
+
+          <clr-dg-cell class="width">
+            {{ data.matching_products_fuzzy[item] }}
+          </clr-dg-cell>
+        </clr-dg-row>
+        <clr-dg-footer>{{dataKeys.length}} items</clr-dg-footer>
+      </clr-datagrid>
+    </div>
+    <ng-template #noData>
+      <div class="not-data" *ngIf="!isLoadings">
+        <p>
+          <img src="/assets/no_data.png" alt="" />
+        </p>
+        <p>There is not data <strong>Please</strong> Do the following</p>
+        <ol>
+          <li>
+            <strong>Make sure you built the Master WQA Table </strong>
+          </li>
+          <li>
+            <strong
+              >Make sure you have URL which is marked “update on page”, “target
+              with links” or “content audit”.
+            </strong>
+          </li>
+        </ol>
+      </div>
+    </ng-template>
+  </div>
+</div>

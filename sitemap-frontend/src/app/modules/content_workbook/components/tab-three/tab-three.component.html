@@ -1,0 +1,51 @@
+<div
+  class="card clr-align-self-center"
+  style="width: 100%; min-height: 400px; overflow-x: scroll; padding: 0"
+>
+  <div class="card-block" style="padding: 5px; margin: 0">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-success" *ngIf="success" role="alert">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+          </div>
+          <span class="alert-text"> Success! Settings are saved. </span>
+        </div>
+      </div>
+      <button
+        type="button"
+        (click)="success = false"
+        class="close"
+        aria-label="Close"
+      >
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
+    <div class="settings">
+      <div class="clr-row" style="text-align: center">
+        <div class="clr-col-lg-3 clr-col-12" *ngFor="let row of config">
+          <app-updatable-table
+            [config]="row"
+            (onSave)="onSave($event)"
+          ></app-updatable-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

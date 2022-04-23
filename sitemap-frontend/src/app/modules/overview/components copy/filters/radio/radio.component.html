@@ -1,0 +1,10 @@
+<clr-radio-wrapper *ngFor="let option of filter.options">
+  <input
+    type="radio"
+    clrRadio
+    value="{{ option.value }}"
+    name="options"
+    [(ngModel)]="filter.value"
+  />
+  <label>{{ option.text }}</label>
+</clr-radio-wrapper>

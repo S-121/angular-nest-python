@@ -1,0 +1,170 @@
+<div class="card" style="height: 100%; margin: 0">
+  <div class="card-header">
+    <clr-icon shape="add" *ngIf="mode === 'ADD'; else editIcon"></clr-icon>
+    <ng-template #editIcon>
+      <clr-icon shape="pencil"></clr-icon>
+    </ng-template>
+
+    {{ mode === "ADD" ? "Add User" : "Edit User" }}
+  </div>
+  <div class="card-block" style="height: 88%; overflow-y: scroll">
+    <div class="alert alert-danger" *ngIf="fail" role="alert">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">Can't Save user! there is error.</div>
+        </div>
+      </div>
+      <button
+        type="button"
+        (click)="fail = false"
+        class="close"
+        aria-label="Close"
+      >
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
+    <div class="alert alert-success" *ngIf="success" role="alert">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+          </div>
+          <span class="alert-text"> Success! User was saved. </span>
+        </div>
+      </div>
+      <button
+        type="button"
+        (click)="success = false"
+        class="close"
+        aria-label="Close"
+      >
+        <clr-icon aria-hidden="true" shape="close"></clr-icon>
+      </button>
+    </div>
+
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="clr-row">
+      
+      <div class="clr-col-lg-6 col-col-12">
+        
+        <form
+          class="form-flex"
+          clrForm
+          [formGroup]="formGroup"
+          clrLayout="horizontal"
+          clrLabelSize="1"
+          (submit)="$event.preventDefault()"
+          novalidate
+        >
+          <clr-control-container>
+            <input clrControl placeholder="User Name" formControlName="name" />
+            <clr-control-helper>Enter user name (required)</clr-control-helper>
+            <clr-control-error *clrIfError="'required'"
+              >User name is a required field</clr-control-error
+            >
+          </clr-control-container>
+
+          <clr-control-container>
+            <input
+              clrControl
+              placeholder="Email"
+              type="email"
+              formControlName="email"
+            />
+            <clr-control-helper>Enter email (required)</clr-control-helper>
+
+            <clr-control-error *clrIfError="'emailExist'"
+              >Email is exists</clr-control-error
+            >
+            <clr-control-error *clrIfError="'required'"
+              >Email is a required field</clr-control-error
+            >
+            <clr-control-error *clrIfError="'pattern'"
+              >Email is invalid</clr-control-error
+            >
+          </clr-control-container>
+
+          <clr-select-container>
+            <select clrSelect name="country" formControlName="country" required>
+              <option *ngFor="let country of countries" [value]="country">
+                {{ country }}
+              </option>
+            </select>
+            <clr-control-helper>Select Country (required)</clr-control-helper>
+            <clr-control-error>Country is required!</clr-control-error>
+          </clr-select-container>
+
+          <clr-password-container>
+            <input
+              clrPassword
+              placeholder="Password"
+              name="password"
+              formControlName="password"
+            />
+            <clr-control-helper>Password (required)</clr-control-helper>
+            <clr-control-error *clrIfError="'required'"
+              >password is a required field</clr-control-error
+            >
+            <clr-control-error *clrIfError="'pattern'"
+              >Password should have at least 8 characters long,1 lowercase
+              letter, 1 capital letter, 1 number, 1 special
+              character</clr-control-error
+            >
+          </clr-password-container>
+          <!-- 
+      <clr-password-container>
+        <input
+          clrPassword
+          placeholder="Repeat Password"
+          name="password"
+          formControlName="cPassword"
+        />
+        <clr-control-helper>Repeat Password (required)</clr-control-helper>
+        <clr-control-error *clrIfError="'required'"
+          >Repeat password is a required field</clr-control-error
+        >
+        <clr-control-error *clrIfError="'mustMatch'"
+          >Passwords do not match</clr-control-error
+        >
+      </clr-password-container> -->
+        </form>
+        
+      </div>
+      <div class="clr-col-lg-2 clr-col-12" style="margin-top: 3.2rem;">
+        <clr-control-container>
+          <label>User Photo</label>
+          <button
+            class="btn image-btn"
+            (click)="$event.preventDefault(); imageInput.click()"
+          >
+            <img
+              [src]="picture.value || '/assets/placeholder.png'"
+              class="card-media-image"
+            />
+          </button>
+          <input
+            type="file"
+            accept="image/*"
+            #imageInput
+            (change)="loadImage($event)"
+            style="display: none"
+          />
+        </clr-control-container>
+      </div>
+      </div>
+  </div>
+  <div class="card-footer">
+    <button class="btn" [disabled]="formGroup.invalid" (click)="save()">
+      SAVE
+    </button>
+    <a class="btn" [routerLink]="['/main/users']"> BACK </a>
+  </div>
+</div>

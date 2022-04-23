@@ -1,0 +1,19 @@
+i.fa-arrow-up {
+  color: #27ae60 !important;
+  &.poor {
+    color: #c0392b !important;
+  }
+  &.normal {
+    color: #f1c40f !important;
+  }
+}
+
+i.fa-arrow-down {
+  color: #c0392b !important;
+  &.good {
+    color: #27ae60 !important;
+  }
+}
+.limit-height clr-datagrid {
+  height: 40vh;
+}

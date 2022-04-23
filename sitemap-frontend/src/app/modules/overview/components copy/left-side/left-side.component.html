@@ -1,0 +1,39 @@
+<div class="left-side">
+  <div class="card" style="padding-top: 0; margin-top: 0">
+    <div class="card-header">
+      <clr-icon shape="filter"></clr-icon>
+      Filters
+    </div>
+    <div class="card-block">
+      <div
+        class="list-unstyled"
+        id="filters"
+        dragula="filters"
+        [(dragulaModel)]="filters"
+      >
+        <div *ngFor="let filter of filters" class="dragItem" [id]="filter.id">
+          <clr-icon [attr.shape]="filter.icon"></clr-icon> {{ filter.title }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <clr-icon shape="document"></clr-icon>
+      Widgets
+    </div>
+    <div class="card-block">
+      <div
+        class="list-unstyled"
+        id="widgets"
+        dragula="widgets"
+        [(dragulaModel)]="widgets"
+      >
+        <div *ngFor="let widget of widgets" class="dragItem">
+          <clr-icon [attr.shape]="widget.icon"></clr-icon> {{ widget.title }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

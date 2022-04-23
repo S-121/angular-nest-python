@@ -1,0 +1,49 @@
+<!-- <div
+  class="card clr-align-self-center"
+  style="width: 100%; min-height: 400px; overflow-x: scroll; padding: 0"
+>
+  <div class="card-block" style="padding: 5px; margin: 0">
+    <div *ngIf="isLoading" class="progress top loop">
+      <progress></progress>
+    </div>
+    <div class="alert alert-danger alert-sm" role="alert" *ngIf="error">
+      <div class="alert-items">
+        <div class="alert-item static">
+          <div class="alert-icon-wrapper">
+            <clr-icon
+              class="alert-icon"
+              shape="exclamation-triangle"
+            ></clr-icon>
+          </div>
+          <div class="alert-text">{{ error }}</div>
+        </div>
+      </div>
+    </div>
+    <clr-datagrid
+      style="padding: 5px; margin: 0"
+      class="table table-compact table-noborder"
+      (clrDgRefresh)="refreshFn($event)"
+      [clrDgLoading]="isLoading"
+    >
+      <clr-dg-column [clrDgField]="h" class="width" *ngFor="let h of header">
+        {{ h }}</clr-dg-column
+      >
+
+      <clr-dg-row *ngFor="let item of data">
+        <clr-dg-cell class="width" *ngFor="let h of header">{{
+          item[h]
+        }}</clr-dg-cell>
+      </clr-dg-row>
+      <clr-dg-footer>
+        <clr-dg-pagination
+          #pagination
+          [clrDgPageSize]="pageSize"
+          [clrDgTotalItems]="count"
+        >
+          {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
+          {{ count }}
+        </clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </div>
+</div> -->

@@ -1,0 +1,52 @@
+<!-- <app-footer></app-footer> -->
+<clr-main-container>
+  <clr-header>
+    <div class="branding">
+      <a [routerLink]="['/main/overview']" class="nav-link">
+        <strong style="color: #0072a3; font-size: 30px">
+          <i class="fa fa-scribd"></i>
+        </strong>
+        <strong style="color: #0072a3; font-size: 15px"> Sitemap </strong>
+      </a>
+
+      <span class="nav-link" style="margin-left: 20px">
+        <strong>Hi!</strong>
+        &nbsp;{{ user?.name }}
+      </span>
+    </div>
+
+    <div class="header-actions">
+      <span *ngIf="projectName" class="nav-link"
+        >Selected Project
+        <!-- <strong>{{ projectName }}</strong> -->
+      
+        <select clrSelect name="projects" (change)="selectProject($event.target.value)">
+          <option>Select a project</option>
+          <option *ngFor="let project of projects" 
+                  [value]="stringify(project)" 
+                  [selected]="project.name === projectName ? 'selected' : ''"
+          >{{ project?.name }}</option>
+        </select>
+        
+        
+        &nbsp;
+      </span>
+
+      <img
+        style="margin-right: 5px"
+        class="avatar"
+        [routerLink]="['/main/users/do/', user?.id]"
+        [src]="user?.picture || '/assets/placeholder.png'"
+        alt=""
+      />
+    </div>
+  </clr-header>
+  <!-- <div class="separador"></div> -->
+  <div class="content-container">
+    <app-sidenav></app-sidenav>
+
+    <div class="content-area">
+      <router-outlet #m="outlet"></router-outlet>
+    </div>
+  </div>
+</clr-main-container>

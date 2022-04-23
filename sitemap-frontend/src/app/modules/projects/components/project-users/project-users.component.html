@@ -1,0 +1,51 @@
+<div class="clr-row">
+  <div class="clr-col-12">
+    <div class="limit-height">
+      <clr-datagrid
+        (clrDgRefresh)="refreshFn($event)"
+        [clrDgLoading]="isLoading"
+      >
+        <clr-dg-action-bar>
+          <h6>
+            <clr-icon shape="search"></clr-icon> Search For Users
+          </h6></clr-dg-action-bar
+        >
+        <clr-dg-column class="table-header" [clrDgField]="'email'">
+          User email</clr-dg-column
+        >
+
+        <clr-dg-row *ngFor="let user of data" [clrDgItem]="user">
+          <clr-dg-cell (click)="addUser(user)" class="user">{{
+            user["email"]
+          }}</clr-dg-cell>
+        </clr-dg-row>
+      </clr-datagrid>
+    </div>
+  </div>
+</div>
+
+<div class="clr-row">
+  <div class="clr-col-12">
+    <div class="limit-height">
+      <clr-datagrid [(clrDgSelected)]="selected">
+        <clr-dg-action-bar>
+          <div class="btn-group">
+            <button
+              type="button"
+              class="btn btn-sm"
+              *ngIf="selected.length > 0"
+              (click)="onDelete()"
+            >
+              <clr-icon shape="close"></clr-icon> DELETE
+            </button>
+          </div>
+        </clr-dg-action-bar>
+        <clr-dg-column class="table-header"> User email</clr-dg-column>
+
+        <clr-dg-row *ngFor="let email of users.value" [clrDgItem]="email">
+          <clr-dg-cell class="user">{{ email }}</clr-dg-cell>
+        </clr-dg-row>
+      </clr-datagrid>
+    </div>
+  </div>
+</div>
